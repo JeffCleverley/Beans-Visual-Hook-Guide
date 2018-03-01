@@ -1,0 +1,39 @@
+.bhavhg-hook-prepend-markup-cue,
+.bhavhg-hook-before-markup-cue,
+.bhavhg-hook-after-markup-cue,
+.bhavhg-hook-append-markup-cue {
+	display: block;
+	padding: 2px 5px;
+	margin: 10px 5px !important;
+	border: 1px solid;
+	overflow: hidden;
+	word-wrap: break-word;
+	font-size: x-small;
+	text-transform: none;
+}
+
+.bhavhg-hook-prepend-markup-cue,
+.bhavhg-hook-append-markup-cue {
+	color: red !important;
+
+}
+
+.bhavhg-hook-before-markup-cue,
+.bhavhg-hook-after-markup-cue {
+	color: blue !important;
+}
+
+#wpadminbar {
+	position: absolute !important;
+	top: 0% !important;
+}
+
+/* Show only default top level items */
+#wp-admin-bar-bhavhg_html_hook_list {
+	display: inline !important;
+}
+
+.uk-navbar-nav > li > a {
+	height: auto !important;
+}
+
