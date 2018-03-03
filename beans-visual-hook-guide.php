@@ -57,11 +57,11 @@ function bhavhg_active_notice() {
 
 	if ( ! _beans_is_html_dev_mode() ) {
 		echo '<div class="notice notice-warning" >'; ?>
-        <p><?php _e( 'Beans HTML API Visual Hook Guide is currently active, but it also requires Development mode to be active. If this is a production site, remember to deactivate both after use.', 'beans-html-api-visual-hook-guide' ) ?></p><?php
+        <p><?php _e( 'Beans HTML API Visual Hook Guide is currently active, but it also requires Development mode to be active. If this is a production site, remember to deactivate both after use.', 'beans-visual-hook-guide' ) ?></p><?php
 		echo '</div>';
 	} else {
 		echo '<div class="notice notice-warning" >'; ?>
-        <p><?php _e( 'Beans HTML API Visual Hook Guide and Development mode are both active. If this is a production site, remember to deactivate both after use.', 'beans-html-api-visual-hook-guide' ) ?></p><?php
+        <p><?php _e( 'Beans HTML API Visual Hook Guide and Development mode are both active. If this is a production site, remember to deactivate both after use.', 'beans-visual-hook-guide' ) ?></p><?php
 		echo '</div>';
 	}
 }
@@ -85,7 +85,7 @@ function bhavhg_admin_initial_links() {
 		$wp_admin_bar->add_node(
 			array(
 				'id'       => 'bhavhg_hooks',
-				'title'    => __( 'Beans HTML API Visual Hook Guide requires development mode to be enabled!', 'beans-html-api-visual-hook-guide' ),
+				'title'    => __( 'Beans HTML API Visual Hook Guide requires development mode to be enabled!', 'beans-visual-hook-guide' ),
 				'href'     => $settings_page,
 				'position' => 0,
 			)
@@ -97,7 +97,7 @@ function bhavhg_admin_initial_links() {
 		$wp_admin_bar->add_node(
 			array(
 				'id'       => 'bhavhg_hooks',
-				'title'    => __( 'Enable Beans HTML API Visual Hook Guide', 'beans-html-api-visual-hook-guide' ),
+				'title'    => __( 'Enable Beans HTML API Visual Hook Guide', 'beans-visual-hook-guide' ),
 				'href'     => esc_url( add_query_arg( 'bhavhg_enable', 'show' ) ),
 				'position' => 0,
 			)
@@ -106,7 +106,7 @@ function bhavhg_admin_initial_links() {
 		$wp_admin_bar->add_node(
 			array(
 				'id'       => 'bhavhg_html',
-				'title'    => __( 'Beans HTML API Hooks', 'beans-html-api-visual-hook-guide' ),
+				'title'    => __( 'Beans HTML API Hooks', 'beans-visual-hook-guide' ),
 				'href'     => '',
 				'position' => 0,
 			)
@@ -140,7 +140,7 @@ function bhavhg_admin_initial_links() {
 		array(
 			'id'       => 'bhavhg_html_list',
 			'parent'   => 'bhavhg_html',
-			'title'    => __( 'All HTML API Hooks List - Show Individually', 'beans-html-api-visual-hook-guide' ),
+			'title'    => __( 'All HTML API Hooks List - Show Individually', 'beans-visual-hook-guide' ),
 			'href'     => '',
 			'position' => 10,
 		)
@@ -150,7 +150,7 @@ function bhavhg_admin_initial_links() {
 		array(
 			'id'       => 'bhavhg_show_all_html',
 			'parent'   => 'bhavhg_html',
-			'title'    => __( 'Show ALL HTML API Hooks (Crazy Mode)', 'beans-html-api-visual-hook-guide' ),
+			'title'    => __( 'Show ALL HTML API Hooks (Crazy Mode)', 'beans-visual-hook-guide' ),
 			'href'     => esc_url( add_query_arg( 'bhavhg_enable_every_html_hook', 'show' ) ),
 			'position' => 10,
 		)
@@ -160,7 +160,7 @@ function bhavhg_admin_initial_links() {
 		array(
 			'id'       => 'bhavhg_html_clear',
 			'parent'   => 'bhavhg_html',
-			'title'    => __( 'Clear all displayed Hooks', 'beans-html-api-visual-hook-guide' ),
+			'title'    => __( 'Clear all displayed Hooks', 'beans-visual-hook-guide' ),
 			'href'     => esc_url( remove_query_arg( $markup_array_query_args_stripped ) ),
 			'position' => 10,
 		)
@@ -170,7 +170,7 @@ function bhavhg_admin_initial_links() {
 		array(
 			'id'       => 'bhavhg_html_clear_disable',
 			'parent'   => 'bhavhg_html',
-			'title'    => __( 'Disable Beans HTML API Visual Hook Guide', 'beans-html-api-visual-hook-guide' ),
+			'title'    => __( 'Disable Beans HTML API Visual Hook Guide', 'beans-visual-hook-guide' ),
 			'href'     => esc_url( remove_query_arg( $bhavhg_query_args_to_clear ) ),
 			'position' => 10,
 		)

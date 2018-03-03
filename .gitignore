@@ -10,6 +10,7 @@
 
 css/*
 !css/bvhg_styles.css
+!css/bhavhg_styles.css
 
 js/*
 !js/scrape_markup_ids.js
