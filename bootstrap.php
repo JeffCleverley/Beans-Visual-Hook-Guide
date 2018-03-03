@@ -188,6 +188,10 @@ add_action( 'wp_enqueue_scripts', 'bhavhg_enqueue_assets', 1 );
  */
 function bhavhg_enqueue_assets() {
 
+	if ( is_customize_preview() ) {
+	    return;
+    };
+
 	$bhavhg_plugin_url = plugins_url( null, __FILE__ );
 
 	if ( 'show' == isset( $_GET['bhavhg_enable'] ) ) {
@@ -245,6 +249,10 @@ add_action( 'beans_head', 'bhavhg_beans_hooker' );
  * Actions use closures to pass the arrays to callbacks
  */
 function bhavhg_beans_hooker() {
+
+	if ( is_customize_preview() ) {
+		return;
+	};
 
 	global $wp_admin_bar;
 
