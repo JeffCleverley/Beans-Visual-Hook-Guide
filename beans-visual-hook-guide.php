@@ -66,14 +66,14 @@ function bvhg_active_notice() {
 	}
 }
 
-add_action( 'admin_bar_menu', 'bhavhg_admin_initial_links', 100 );
+add_action( 'admin_bar_menu', 'bvhg_admin_initial_links', 100 );
 /**
  * Add the Admin Bar Links conditionally
  * If development mode isn't active, link is directed to Beans Settings to enable.
  * If development mode is active, displays drop-down links for features and clearance.
  * Set different query_args to enable different functions.
  */
-function bhavhg_admin_initial_links() {
+function bvhg_admin_initial_links() {
 	global $wp_admin_bar;
 
 	if ( is_admin() ) {
@@ -85,7 +85,7 @@ function bhavhg_admin_initial_links() {
 		$wp_admin_bar->add_node(
 			array(
 				'id'       => 'bhavhg_hooks',
-				'title'    => __( 'Beans HTML API Visual Hook Guide requires development mode to be enabled!', 'beans-visual-hook-guide' ),
+				'title'    => __( 'Beans Visual Hook Guide requires development mode to be enabled!', 'beans-visual-hook-guide' ),
 				'href'     => $settings_page,
 				'position' => 0,
 			)
@@ -97,7 +97,7 @@ function bhavhg_admin_initial_links() {
 		$wp_admin_bar->add_node(
 			array(
 				'id'       => 'bhavhg_hooks',
-				'title'    => __( 'Enable Beans HTML API Visual Hook Guide', 'beans-visual-hook-guide' ),
+				'title'    => __( 'Enable Beans Visual Hook Guide', 'beans-visual-hook-guide' ),
 				'href'     => esc_url( add_query_arg( 'bhavhg_enable', 'show' ) ),
 				'position' => 0,
 			)
@@ -106,7 +106,7 @@ function bhavhg_admin_initial_links() {
 		$wp_admin_bar->add_node(
 			array(
 				'id'       => 'bhavhg_html',
-				'title'    => __( 'Beans HTML API Hooks', 'beans-visual-hook-guide' ),
+				'title'    => __( 'Beans Visual Hook Guide', 'beans-visual-hook-guide' ),
 				'href'     => '',
 				'position' => 0,
 			)
@@ -177,7 +177,7 @@ function bhavhg_admin_initial_links() {
 	);
 }
 
-add_action( 'wp_enqueue_scripts', 'bhavhg_enqueue_assets', 1 );
+add_action( 'wp_enqueue_scripts', 'bvhg_enqueue_assets', 1 );
 /**
  * Enqueue CSS assets.
  *
@@ -186,7 +186,7 @@ add_action( 'wp_enqueue_scripts', 'bhavhg_enqueue_assets', 1 );
  * 2. Adds all data-markup-id values as an additional class to their elements - to be used later to change css on the fly.
  * 3. Localizes script - sends values to be used by Ajax call used to receive the POSTed markup array.
  */
-function bhavhg_enqueue_assets() {
+function bvhg_enqueue_assets() {
 
 	if ( is_customize_preview() ) {
 	    return;
@@ -216,14 +216,14 @@ function bhavhg_enqueue_assets() {
 	);
 }
 
-add_action( 'wp_ajax_bhavhg_pass_markup_id_array', 'bhavhg_pass_markup_id_array_callback' );
+add_action( 'wp_ajax_bhavhg_pass_markup_id_array', 'bvhg_pass_markup_id_array_callback' );
 /**
  * AJAX call back
  *
  * Receive Array containing all the data-markup-id attributes displayed by Beans Development Mode.
  * Check if transient exists, if so delete it, then save the received array as transient.
  */
-function bhavhg_pass_markup_id_array_callback() {
+function bvhg_pass_markup_id_array_callback() {
 
 	check_ajax_referer( 'my-special-string', 'security' );
 
@@ -239,7 +239,7 @@ function bhavhg_pass_markup_id_array_callback() {
 }
 
 
-add_action( 'beans_head', 'bhavhg_beans_hooker' );
+add_action( 'beans_head', 'bvhg_beans_hooker' );
 /**
  * Check Query_Args and add actions conditionally.
  *
@@ -248,7 +248,7 @@ add_action( 'beans_head', 'bhavhg_beans_hooker' );
  *
  * Actions use closures to pass the arrays to callbacks
  */
-function bhavhg_beans_hooker() {
+function bvhg_beans_hooker() {
 
 	if ( is_customize_preview() ) {
 		return;
@@ -315,11 +315,11 @@ function bhavhg_beans_hooker() {
 			}
 
 			add_action( 'wp_enqueue_scripts', function () use ( $markup_array ) {
-				bhavhg_enqueue_element_id_script( $markup_array );
+				bvhg_enqueue_element_id_script( $markup_array );
 			}, 1, 999 );
 		} else {
 			add_action( 'wp_enqueue_scripts', function () use ( $markup_array_for_individual_css_changes ) {
-				bhavhg_enqueue_element_id_script( $markup_array_for_individual_css_changes );
+				bvhg_enqueue_element_id_script( $markup_array_for_individual_css_changes );
 			}, 1, 999 );
 		}
 	}
@@ -334,7 +334,7 @@ function bhavhg_beans_hooker() {
  *
  * @param $markup_array     array   depending on query_arg displaying, will either be an array of just the chosen elements or every single element with a data-markup-id value.
  */
-function bhavhg_enqueue_element_id_script( $markup_array ) {
+function bvhg_enqueue_element_id_script( $markup_array ) {
 
 	$bhavhg_plugin_url = plugins_url( null, __FILE__ );
 
