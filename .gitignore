@@ -3,13 +3,13 @@
 
 !.gitignore
 !README.md
-!bootstrap.php
+!beans-visual-hook-guide.php
 
 !css
 !js
 
 css/*
-!css/bhavhg_styles.css
+!css/bvhg_styles.css
 
 js/*
 !js/scrape_markup_ids.js

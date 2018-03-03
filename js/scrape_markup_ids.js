@@ -15,7 +15,7 @@ jQuery(document).ready(function(){
     type: 'POST',   // Adding Post method
     url: myAjax.ajaxurl,
     data: {
-      action: "bhavhg_pass_markup_id_array",
+      action: "bvhg_pass_markup_id_array",
       security: myAjax.nonce, // Including ajax file
       markup: markupIdArray,
     }

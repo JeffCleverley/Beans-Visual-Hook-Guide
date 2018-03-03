@@ -14,7 +14,7 @@ jQuery(document).ready(function(){
       document.getElementsByClassName( elementClass )[0].setAttribute("style", "border:solid 1px orange; margin: 5px !important;");
     }
 
-    document.getElementById("wp-admin-bar-bhavhg_html_" + elementClass +"hook" ).getElementsByClassName("ab-item")[0].style.color = "yellow";
+    document.getElementById("wp-admin-bar-bvhg_html_" + elementClass +"hook" ).getElementsByClassName("ab-item")[0].style.color = "yellow";
   }
 });
 
