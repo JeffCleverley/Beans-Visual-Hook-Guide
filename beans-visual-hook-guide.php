@@ -22,11 +22,11 @@ $beans_flavors = array(
 );
 define( 'BEANS_FLAVORS', $beans_flavors );
 
-register_activation_hook( __FILE__, 'bhavhg_activation_check' );
+register_activation_hook( __FILE__, 'bvhg_activation_check' );
 /**
  * Check active theme is Beans before allowing activation
  */
-function bhavhg_activation_check() {
+function bvhg_activation_check() {
 
 	if ( ! in_array( wp_get_theme()->Template, BEANS_FLAVORS ) ) {
 		deactivate_plugins( plugin_basename( __FILE__ ) );
@@ -34,11 +34,11 @@ function bhavhg_activation_check() {
 	}
 }
 
-add_action( 'switch_theme', 'bhavhg_disable_itself_if_not_beans' );
+add_action( 'switch_theme', 'bvhg_disable_itself_if_not_beans' );
 /**
  * Deactivate plugin if Beans is no longer the active framework after switching themes
  */
-function bhavhg_disable_itself_if_not_beans() {
+function bvhg_disable_itself_if_not_beans() {
 
 	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
@@ -47,21 +47,21 @@ function bhavhg_disable_itself_if_not_beans() {
 	}
 }
 
-add_action( 'admin_notices', 'bhavhg_active_notice' );
+add_action( 'admin_notices', 'bvhg_active_notice' );
 /**
  * Notices to display when plugin active.
  * Notice 1 - Displays when Development Mode isn't active, but plugin is.
  * Notice 2 - Displays when Development Mode and Plugin are active.
  */
-function bhavhg_active_notice() {
+function bvhg_active_notice() {
 
 	if ( ! _beans_is_html_dev_mode() ) {
 		echo '<div class="notice notice-warning" >'; ?>
-        <p><?php _e( 'Beans HTML API Visual Hook Guide is currently active, but it also requires Development mode to be active. If this is a production site, remember to deactivate both after use.', 'beans-visual-hook-guide' ) ?></p><?php
+        <p><?php _e( 'Beans Visual Hook Guide is currently active, but it also requires Development mode to be active. If this is a production site, remember to deactivate both after use.', 'beans-visual-hook-guide' ) ?></p><?php
 		echo '</div>';
 	} else {
 		echo '<div class="notice notice-warning" >'; ?>
-        <p><?php _e( 'Beans HTML API Visual Hook Guide and Development mode are both active. If this is a production site, remember to deactivate both after use.', 'beans-visual-hook-guide' ) ?></p><?php
+        <p><?php _e( 'Beans Visual Hook Guide and Development mode are both active. If this is a production site, remember to deactivate both after use.', 'beans-visual-hook-guide' ) ?></p><?php
 		echo '</div>';
 	}
 }
