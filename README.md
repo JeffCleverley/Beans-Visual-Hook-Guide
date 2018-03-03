@@ -1,7 +1,8 @@
-# Beans HMTL API Visual Hook Guide 
+# Beans Visual Hook Guide 
 ## For the Beans WordPress Theme Framework
+**Visual Hook Guide for the Beans HTML API**
 
-The Beans HTML API Visual Hook Guide is an experimental plugin based on the idea of the Genesis Visual Hook Guide.
+The Beans Visual Hook Guide is an experimental plugin based on the idea of the Genesis Visual Hook Guide.
 
 [Beans](http://www.getbeans.io/) is an incredibly powerful and flexible WordPress theme, yet light weight and unbelievably fast. 
 Whether you are a pro or a beginner, you will enjoy the simplicity of it. The magic is under the hood!
