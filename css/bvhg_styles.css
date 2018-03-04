@@ -1,7 +1,7 @@
-.bhavhg-hook-prepend-markup-cue,
-.bhavhg-hook-before-markup-cue,
-.bhavhg-hook-after-markup-cue,
-.bhavhg-hook-append-markup-cue {
+.bvhg-hook-prepend-markup-cue,
+.bvhg-hook-before-markup-cue,
+.bvhg-hook-after-markup-cue,
+.bvhg-hook-append-markup-cue {
 	display: block;
 	padding: 2px 5px;
 	margin: 10px 5px !important;
@@ -12,14 +12,14 @@
 	text-transform: none;
 }
 
-.bhavhg-hook-prepend-markup-cue,
-.bhavhg-hook-append-markup-cue {
+.bvhg-hook-prepend-markup-cue,
+.bvhg-hook-append-markup-cue {
 	color: red !important;
 
 }
 
-.bhavhg-hook-before-markup-cue,
-.bhavhg-hook-after-markup-cue {
+.bvhg-hook-before-markup-cue,
+.bvhg-hook-after-markup-cue {
 	color: blue !important;
 }
 
@@ -29,7 +29,7 @@
 }
 
 /* Show only default top level items */
-#wp-admin-bar-bhavhg_html_hook_list {
+#wp-admin-bar-bvhg_html_hook_list {
 	display: inline !important;
 }
 
