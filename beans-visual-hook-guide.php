@@ -171,15 +171,11 @@ function bvhg_toolbar_second_level_links() {
 	bvhg_strip_markup_query_args_of_square_brackets( $markup_array_query_args );
 
 	$bvhg_query_args_to_clear = array_merge( $markup_array_query_args_stripped, $bvhg_main_query_args );
-
 	$markup_array_query_args_stripped[] = 'bvhg_enable_every_html_hook';
 
 	bvhg_show_html_hooks_individually_from_list_toolbar_link();
-
 	bvhg_show_all_html_hooks_in_crazy_mode_toolbar_link();
-
 	bvhg_clear_displayed_hooks( $bvhg_query_args_to_clear );
-
 }
 
 /**
