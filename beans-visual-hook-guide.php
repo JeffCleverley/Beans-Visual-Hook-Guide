@@ -4,7 +4,7 @@ Plugin Name: Beans HTML API Visual Hook Guide
 Plugin URI: https://github.com/JeffCleverley/Beans-Visual-Hook-Guide
 Description: Find Beans Hooks (HTML API created action hooks only) quickly and easily by seeing their actual locations inside your theme.
 Version: 1.0.0
-Author: Jeff Cleverley
+Author: Jeff R Cleverley
 Author URI: https://learningcurve.xyz
 Text Domain: beans-visual-hook-guide
 License: GPLv2
@@ -20,7 +20,9 @@ $beans_flavors = array(
 	'beans',
 	'tm-beans',
 );
+
 define( 'BEANS_FLAVORS', $beans_flavors );
+define( 'BEANS_PLUGIN_URL', plugins_url( null, __FILE__ ) );
 
 register_activation_hook( __FILE__, 'bvhg_activation_check' );
 /**
@@ -74,6 +76,7 @@ add_action( 'admin_bar_menu', 'bvhg_admin_initial_links', 100 );
  * Set different query_args to enable different functions.
  */
 function bvhg_admin_initial_links() {
+
 	global $wp_admin_bar;
 
 	if ( is_admin() ) {
@@ -81,31 +84,34 @@ function bvhg_admin_initial_links() {
 	}
 
 	if ( ! _beans_is_html_dev_mode() ) {
-		$settings_page = get_site_url() . '/wp-admin/themes.php?page=beans_settings';
+
 		$wp_admin_bar->add_node(
 			array(
-				'id'       => 'bhavhg_hooks',
+				'id'       => 'bvhg_hooks',
 				'title'    => __( 'Beans Visual Hook Guide requires development mode to be enabled!', 'beans-visual-hook-guide' ),
-				'href'     => $settings_page,
+				'href'     => get_site_url() . '/wp-admin/themes.php?page=beans_settings',
 				'position' => 0,
 			)
 		);
+
 		return;
 	}
 
-	if ( 'show' != isset( $_GET['bhavhg_enable'] ) ) {
+	if ( 'show' != isset( $_GET['bvhg_enable'] ) ) {
+
 		$wp_admin_bar->add_node(
 			array(
-				'id'       => 'bhavhg_hooks',
+				'id'       => 'bvhg_hooks',
 				'title'    => __( 'Enable Beans Visual Hook Guide', 'beans-visual-hook-guide' ),
-				'href'     => esc_url( add_query_arg( 'bhavhg_enable', 'show' ) ),
+				'href'     => esc_url( add_query_arg( 'bvhg_enable', 'show' ) ),
 				'position' => 0,
 			)
 		);
-	} elseif ( 'show' == isset( $_GET['bhavhg_enable'] ) ) {
+	} elseif ( 'show' == isset( $_GET['bvhg_enable'] ) ) {
+
 		$wp_admin_bar->add_node(
 			array(
-				'id'       => 'bhavhg_html',
+				'id'       => 'bvhg_html',
 				'title'    => __( 'Beans Visual Hook Guide', 'beans-visual-hook-guide' ),
 				'href'     => '',
 				'position' => 0,
@@ -113,13 +119,14 @@ function bvhg_admin_initial_links() {
 		);
 	}
 
-	$bhavhg_main_query_args             = array(
-		'bhavhg_action_hooks',
-		'bhavhg_html_hooks',
-		'bhavhg_enable',
-		'bhavhg_enable_every_html_hook'
+	$bvhg_main_query_args = array(
+		'bvhg_html_hooks',
+		'bvhg_enable',
+		'bvhg_enable_every_html_hook'
 	);
-	$markup_array_query_args          = get_transient( 'beans_html_markup_transient' );
+
+	$markup_array_query_args = get_transient( 'beans_html_markup_transient' );
+
 	$markup_array_query_args_stripped = array();
 
 	if ( ! $markup_array_query_args ) {
@@ -133,13 +140,13 @@ function bvhg_admin_initial_links() {
 		$i ++;
 	}
 
-	$bhavhg_query_args_to_clear           = array_merge( $markup_array_query_args_stripped, $bhavhg_main_query_args );
-	$markup_array_query_args_stripped[] = 'bhavhg_enable_every_html_hook';
+	$bvhg_query_args_to_clear           = array_merge( $markup_array_query_args_stripped, $bvhg_main_query_args );
+	$markup_array_query_args_stripped[] = 'bvhg_enable_every_html_hook';
 
 	$wp_admin_bar->add_node(
 		array(
-			'id'       => 'bhavhg_html_list',
-			'parent'   => 'bhavhg_html',
+			'id'       => 'bvhg_html_list',
+			'parent'   => 'bvhg_html',
 			'title'    => __( 'All HTML API Hooks List - Show Individually', 'beans-visual-hook-guide' ),
 			'href'     => '',
 			'position' => 10,
@@ -148,18 +155,18 @@ function bvhg_admin_initial_links() {
 
 	$wp_admin_bar->add_node(
 		array(
-			'id'       => 'bhavhg_show_all_html',
-			'parent'   => 'bhavhg_html',
+			'id'       => 'bvhg_show_all_html',
+			'parent'   => 'bvhg_html',
 			'title'    => __( 'Show ALL HTML API Hooks (Crazy Mode)', 'beans-visual-hook-guide' ),
-			'href'     => esc_url( add_query_arg( 'bhavhg_enable_every_html_hook', 'show' ) ),
+			'href'     => esc_url( add_query_arg( 'bvhg_enable_every_html_hook', 'show' ) ),
 			'position' => 10,
 		)
 	);
 
 	$wp_admin_bar->add_node(
 		array(
-			'id'       => 'bhavhg_html_clear',
-			'parent'   => 'bhavhg_html',
+			'id'       => 'bvhg_html_clear',
+			'parent'   => 'bvhg_html',
 			'title'    => __( 'Clear all displayed Hooks', 'beans-visual-hook-guide' ),
 			'href'     => esc_url( remove_query_arg( $markup_array_query_args_stripped ) ),
 			'position' => 10,
@@ -168,16 +175,17 @@ function bvhg_admin_initial_links() {
 
 	$wp_admin_bar->add_node(
 		array(
-			'id'       => 'bhavhg_html_clear_disable',
-			'parent'   => 'bhavhg_html',
+			'id'       => 'bvhg_html_clear_disable',
+			'parent'   => 'bvhg_html',
 			'title'    => __( 'Disable Beans HTML API Visual Hook Guide', 'beans-visual-hook-guide' ),
-			'href'     => esc_url( remove_query_arg( $bhavhg_query_args_to_clear ) ),
+			'href'     => esc_url( remove_query_arg( $bvhg_query_args_to_clear ) ),
 			'position' => 10,
 		)
 	);
 }
 
-add_action( 'wp_enqueue_scripts', 'bvhg_enqueue_assets', 1 );
+add_action( 'wp_enqueue_scripts', 'bvhg_script_to_scrape_markup_on_page_Load', 1 );
+add_action( 'wp_enqueue_scripts', 'bvhg_enqueue_css_if_guide_enabled', 1 );
 /**
  * Enqueue CSS assets.
  *
@@ -186,21 +194,15 @@ add_action( 'wp_enqueue_scripts', 'bvhg_enqueue_assets', 1 );
  * 2. Adds all data-markup-id values as an additional class to their elements - to be used later to change css on the fly.
  * 3. Localizes script - sends values to be used by Ajax call used to receive the POSTed markup array.
  */
-function bvhg_enqueue_assets() {
+function bvhg_script_to_scrape_markup_on_page_Load() {
 
 	if ( is_customize_preview() ) {
-	    return;
-    };
-
-	$bhavhg_plugin_url = plugins_url( null, __FILE__ );
-
-	if ( 'show' == isset( $_GET['bhavhg_enable'] ) ) {
-		wp_enqueue_style( 'bhavhg_styles', $bhavhg_plugin_url . '/css/bhavhg_styles.css' );
-	}
+		return;
+	};
 
 	wp_enqueue_script(
 		'scrape-the-markup-ids',
-		$bhavhg_plugin_url . '/js/scrape_markup_ids.js',
+		BEANS_PLUGIN_URL . '/js/scrape_markup_ids.js',
 		array( 'jquery' ),
 		'1.0.0',
 		true
@@ -216,12 +218,25 @@ function bvhg_enqueue_assets() {
 	);
 }
 
-add_action( 'wp_ajax_bhavhg_pass_markup_id_array', 'bvhg_pass_markup_id_array_callback' );
+function bvhg_enqueue_css_if_guide_enabled(){
+
+	if ( is_customize_preview() ) {
+		return;
+	};
+
+    if ( 'show' == isset( $_GET['bvhg_enable'] ) ) {
+		wp_enqueue_style( 'bvhg_styles', BEANS_PLUGIN_URL . '/css/bvhg_styles.css' );
+	}
+}
+
+add_action( 'wp_ajax_bvhg_pass_markup_id_array', 'bvhg_pass_markup_id_array_callback' );
 /**
  * AJAX call back
  *
  * Receive Array containing all the data-markup-id attributes displayed by Beans Development Mode.
  * Check if transient exists, if so delete it, then save the received array as transient.
+ *
+ * Always die out of an AJAX call
  */
 function bvhg_pass_markup_id_array_callback() {
 
@@ -235,7 +250,7 @@ function bvhg_pass_markup_id_array_callback() {
 	}
 	set_transient( 'beans_html_markup_transient', $markup_array_for_transient, 12 * HOUR_IN_SECONDS );
 
-	die(); // Always die() out at end of AJAX call.
+	die();
 }
 
 
@@ -252,79 +267,109 @@ function bvhg_beans_hooker() {
 
 	if ( is_customize_preview() ) {
 		return;
-	};
-
-	global $wp_admin_bar;
+	}
 
 	$markup_array = get_transient( 'beans_html_markup_transient' );
 
-	if ( 'show' == isset( $_GET['bhavhg_enable'] ) && $markup_array ) {
+	if ( ! $markup_array || 'show' != isset( $_GET['bvhg_enable'] ) ) {
+		return;
+	}
 
-		$markup_array_for_individual_css_changes = array();
+	bvhg_add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $markup_array );
 
-		foreach ( $markup_array as $markup ) {
+	if ( 'show' != isset( $_GET['bvhg_enable_every_html_hook'] ) ) {
+		bvhg_enqueue_css_script_with_markup_array_for_chosen_hooks_only();
+		return;
+	}
 
-			$markup_strip_opening_square_bracket = str_replace( '[', '', $markup );
-			$markup_stripped_of_square_brackets  = str_replace( ']', '', $markup_strip_opening_square_bracket );
+	bvhg_add_action_hooks_for_all_markup_hooks( $markup_array );
+	bvhg_enqueue_css_script_with_markup_array_for_all_markup_hooks( $markup_array );
 
-			$wp_admin_bar->add_node(
-				array(
-					'id'       => "bhavhg_html_{$markup}hook",
-					'parent'   => 'bhavhg_html_list',
-					'title'    => $markup,
-					'href'     => esc_url( add_query_arg( "{$markup_stripped_of_square_brackets}", 'show' ) ),
-					'position' => 10,
-				)
-			);
+}
 
-			if ( 'show' == isset( $_GET[ $markup_stripped_of_square_brackets ] ) ) {
+function bvhg_add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $markup_array ) {
 
-				$markup_array_for_individual_css_changes[] = $markup;
+	foreach ( $markup_array as $markup ) {
+		$markup_stripped_of_opening_square_bracket = str_replace( '[', '', $markup );
+		$markup_stripped_of_all_square_brackets  = str_replace( ']', '', $markup_stripped_of_opening_square_bracket );
 
-				add_action( "{$markup}_before_markup", function () use ( $markup ) {
-					bhavhg_beans_before_markup( $markup );
-				}, 1 );
-				add_action( "{$markup}_prepend_markup", function () use ( $markup ) {
-					bhavhg_beans_prepend_markup( $markup );
-				}, 1 );
-				add_action( "{$markup}_append_markup", function () use ( $markup ) {
-					bhavhg_beans_append_markup( $markup );
-				}, 1 );
-				add_action( "{$markup}_after_markup", function () use ( $markup ) {
-					bhavhg_beans_after_markup( $markup );
-				}, 1 );
-			}
-		}
-
-		if ( 'show' == isset( $_GET['bhavhg_enable_every_html_hook'] ) ) {
-
-			foreach ( $markup_array as $markup ) {
-
-				add_action( "{$markup}_before_markup", function () use ( $markup ) {
-					bhavhg_beans_before_markup( $markup );
-				}, 1 );
-				add_action( "{$markup}_prepend_markup", function () use ( $markup ) {
-					bhavhg_beans_prepend_markup( $markup );
-				}, 1 );
-				add_action( "{$markup}_append_markup", function () use ( $markup ) {
-					bhavhg_beans_append_markup( $markup );
-				}, 1 );
-				add_action( "{$markup}_after_markup", function () use ( $markup ) {
-					bhavhg_beans_after_markup( $markup );
-				}, 1 );
-			}
-
-			add_action( 'wp_enqueue_scripts', function () use ( $markup_array ) {
-				bvhg_enqueue_element_id_script( $markup_array );
-			}, 1, 999 );
-		} else {
-			add_action( 'wp_enqueue_scripts', function () use ( $markup_array_for_individual_css_changes ) {
-				bvhg_enqueue_element_id_script( $markup_array_for_individual_css_changes );
-			}, 1, 999 );
-		}
+		bvhg_add_toolbar_nodes_for_individual_markup_hooks( $markup, $markup_stripped_of_all_square_brackets );
+		bvhg_add_action_hooks_for_individually_chosen_markup_hooks( $markup, $markup_stripped_of_all_square_brackets );
 	}
 }
 
+function bvhg_add_toolbar_nodes_for_individual_markup_hooks( $markup, $markup_stripped_of_square_brackets ) {
+
+	global $wp_admin_bar;
+
+	$wp_admin_bar->add_node(
+		array(
+			'id'       => "bvhg_html_{$markup}hook",
+			'parent'   => 'bvhg_html_list',
+			'title'    => $markup,
+			'href'     => esc_url( add_query_arg( "{$markup_stripped_of_square_brackets}", 'show' ) ),
+			'position' => 10,
+		)
+	);
+}
+
+function bvhg_add_action_hooks_for_individually_chosen_markup_hooks( $markup, $markup_stripped_of_square_brackets ) {
+
+	global $markup_array_for_individual_css_changes;
+
+	if ( 'show' == isset( $_GET[ $markup_stripped_of_square_brackets ] ) ) {
+
+		$markup_array_for_individual_css_changes[] = $markup;
+
+		add_action( "{$markup}_before_markup", function () use ( $markup ) {
+			bvhg_beans_before_markup( $markup );
+		}, 1 );
+		add_action( "{$markup}_prepend_markup", function () use ( $markup ) {
+			bvhg_beans_prepend_markup( $markup );
+		}, 1 );
+		add_action( "{$markup}_append_markup", function () use ( $markup ) {
+			bvhg_beans_append_markup( $markup );
+		}, 1 );
+		add_action( "{$markup}_after_markup", function () use ( $markup ) {
+			bvhg_beans_after_markup( $markup );
+		}, 1 );
+	}
+}
+
+function bvhg_enqueue_css_script_with_markup_array_for_chosen_hooks_only() {
+
+    global  $markup_array_for_individual_css_changes;
+
+	add_action( 'wp_enqueue_scripts', function () use ( $markup_array_for_individual_css_changes ) {
+		bvhg_enqueue_element_id_script( $markup_array_for_individual_css_changes );
+	}, 1, 999 );
+}
+
+function bvhg_add_action_hooks_for_all_markup_hooks( $markup_array ) {
+
+	foreach ( $markup_array as $markup ) {
+
+		add_action( "{$markup}_before_markup", function () use ( $markup ) {
+			bvhg_beans_before_markup( $markup );
+		}, 1 );
+		add_action( "{$markup}_prepend_markup", function () use ( $markup ) {
+			bvhg_beans_prepend_markup( $markup );
+		}, 1 );
+		add_action( "{$markup}_append_markup", function () use ( $markup ) {
+			bvhg_beans_append_markup( $markup );
+		}, 1 );
+		add_action( "{$markup}_after_markup", function () use ( $markup ) {
+			bvhg_beans_after_markup( $markup );
+		}, 1 );
+	}
+}
+
+function bvhg_enqueue_css_script_with_markup_array_for_all_markup_hooks( $markup_array ) {
+
+	add_action( 'wp_enqueue_scripts', function () use ( $markup_array ) {
+		bvhg_enqueue_element_id_script( $markup_array );
+	}, 1, 999 );
+}
 
 /**
  * Enqueue script to make css changes on fly
@@ -336,11 +381,9 @@ function bvhg_beans_hooker() {
  */
 function bvhg_enqueue_element_id_script( $markup_array ) {
 
-	$bhavhg_plugin_url = plugins_url( null, __FILE__ );
-
 	wp_enqueue_script(
 		'element-id-css-changes',
-		$bhavhg_plugin_url . '/js/element_id_css.js',
+		BEANS_PLUGIN_URL . '/js/element_id_css.js',
 		array( 'jquery' ),
 		'1.0.0',
 		true
@@ -362,8 +405,8 @@ function bvhg_enqueue_element_id_script( $markup_array ) {
  *
  * @param   $markup string  data-markup-id attribute
  */
-function bhavhg_beans_before_markup( $markup ) {
-	echo '<div class="bhavhg-hook-before-markup-cue" data-bhavhg-hook-cue="' . $markup . '_before_markup">';
+function bvhg_beans_before_markup( $markup ) {
+	echo '<div class="bvhg-hook-before-markup-cue" data-bvhg-hook-cue="' . $markup . '_before_markup">';
 	echo $markup . '_before_markup</div>';
 }
 
@@ -374,8 +417,8 @@ function bhavhg_beans_before_markup( $markup ) {
  *
  * @param   $markup string  data-markup-id attribute
  */
-function bhavhg_beans_prepend_markup( $markup ) {
-	echo '<div class="bhavhg-hook-prepend-markup-cue" data-bhavhg-hook-cue="' . $markup . '_prepend_markup">';
+function bvhg_beans_prepend_markup( $markup ) {
+	echo '<div class="bvhg-hook-prepend-markup-cue" data-bvhg-hook-cue="' . $markup . '_prepend_markup">';
 	echo $markup . '_prepend_markup</div>';
 }
 
@@ -386,8 +429,8 @@ function bhavhg_beans_prepend_markup( $markup ) {
  *
  * @param   $markup string  data-markup-id attribute
  */
-function bhavhg_beans_append_markup( $markup ) {
-	echo '<div class="bhavhg-hook-append-markup-cue" data-bhavhg-hook-cue="' . $markup . '_append_markup">';
+function bvhg_beans_append_markup( $markup ) {
+	echo '<div class="bvhg-hook-append-markup-cue" data-bvhg-hook-cue="' . $markup . '_append_markup">';
 	echo $markup . '_append_markup</div>';
 }
 
@@ -398,8 +441,8 @@ function bhavhg_beans_append_markup( $markup ) {
  *
  * @param   $markup string  data-markup-id attribute
  */
-function bhavhg_beans_after_markup( $markup ) {
-	echo '<div class="bhavhg-hook-after-markup-cue" data-bhavhg-hook-cue="' . $markup . '_after_markup">';
+function bvhg_beans_after_markup( $markup ) {
+	echo '<div class="bvhg-hook-after-markup-cue" data-bvhg-hook-cue="' . $markup . '_after_markup">';
 	echo $markup . '_after_markup</div>';
 }
 

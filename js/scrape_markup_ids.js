@@ -7,6 +7,7 @@ jQuery(document).ready(function(){
 
     var markupId = allDataMarkupIdValuesNodeList[i].dataset.markupId;
     var elementByMarkupId = document.querySelectorAll("[data-markup-id='" + markupId + "']");
+
     markupIdArray[i] = markupId;
     elementByMarkupId[0].className += " " + markupId;
   }
@@ -15,7 +16,7 @@ jQuery(document).ready(function(){
     type: 'POST',   // Adding Post method
     url: myAjax.ajaxurl,
     data: {
-      action: "bhavhg_pass_markup_id_array",
+      action: "bvhg_pass_markup_id_array",
       security: myAjax.nonce, // Including ajax file
       markup: markupIdArray,
     }
