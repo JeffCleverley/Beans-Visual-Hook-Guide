@@ -16,7 +16,7 @@ https://github.com/christophercochran/Genesis-Visual-Hook-Guide
 http://christophercochran.me
 */
 
-define( 'BEANS_FLAVORS', array( 'beans', 'tm-beans') );
+define( 'BEANS_FLAVORS', array( 'beans', 'tm-beans' ) );
 define( 'BEANS_PLUGIN_URL', plugins_url( null, __FILE__ ) );
 
 register_activation_hook( __FILE__, 'bvhg_environment_check' );
@@ -78,6 +78,7 @@ function bvhg_toolbar_top_level_links() {
 
 	if ( ! _beans_is_html_dev_mode() ) {
 		bvhg_add_toolbar_link_to_beans_settings_if_development_mode_disabled();
+
 		return;
 	}
 
@@ -165,7 +166,7 @@ function bvhg_toolbar_second_level_links() {
 
 	bvhg_strip_markup_query_args_of_square_brackets( $markup_array_query_args );
 
-	$bvhg_query_args_to_clear = array_merge( $markup_array_query_args_stripped, $bvhg_main_query_args );
+	$bvhg_query_args_to_clear           = array_merge( $markup_array_query_args_stripped, $bvhg_main_query_args );
 	$markup_array_query_args_stripped[] = 'bvhg_enable_every_html_hook';
 
 	bvhg_show_html_hooks_individually_from_list_toolbar_link();
@@ -346,7 +347,6 @@ function bvhg_beans_hooker() {
 		return;
 	}
 
-
 	$markup_array = get_transient( 'beans_html_markup_transient' );
 
 	if ( ! $markup_array || 'show' != isset( $_GET['bvhg_enable'] ) ) {
@@ -356,7 +356,8 @@ function bvhg_beans_hooker() {
 	bvhg_add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $markup_array );
 
 	if ( 'show' != isset( $_GET['bvhg_enable_every_html_hook'] ) ) {
-	    bvhg_enqueue_css_script_with_markup_array_for_chosen_hooks_only();
+		bvhg_enqueue_css_script_with_markup_array_for_chosen_hooks_only();
+
 		return;
 	}
 
@@ -376,8 +377,9 @@ function bvhg_beans_hooker() {
 function bvhg_add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $markup_array ) {
 
 	foreach ( $markup_array as $markup ) {
-		$markup_stripped_of_opening_square_bracket = str_replace( '[', '', $markup );
+	    $markup_stripped_of_opening_square_bracket = str_replace( '[', '', $markup );
 		$markup_stripped_of_all_square_brackets    = str_replace( ']', '', $markup_stripped_of_opening_square_bracket );
+
 		bvhg_add_toolbar_nodes_for_individual_markup_hooks( $markup, $markup_stripped_of_all_square_brackets );
 		bvhg_add_action_hooks_for_individually_chosen_markup_hooks( $markup, $markup_stripped_of_all_square_brackets );
 	}
@@ -387,8 +389,8 @@ function bvhg_add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $marku
 /**
  * Function to add toolbar nodes for all possible markup hooks that can be chosen
  *
- * @param $markup                               array   array of all data-markup-id values
- * @param $markup_stripped_of_square_brackets   array   array of all data-markup-id values stripped of square brackets
+ * @param $markup                                       array   array of all data-markup-id values
+ * @param $markup_stripped_of_square_brackets           array   array of all data-markup-id values stripped of square brackets
  *                                                      to be used as query args
  */
 function bvhg_add_toolbar_nodes_for_individual_markup_hooks( $markup, $markup_stripped_of_square_brackets ) {
@@ -410,8 +412,8 @@ function bvhg_add_toolbar_nodes_for_individual_markup_hooks( $markup, $markup_st
  * Function that adds actions to display markup on all chosen action hooks
  * Add the current markup query arg to the global markup array for making individual css changes.
  *
- * @param $markup                               array   array of all data-markup-id values
- * @param $markup_stripped_of_square_brackets   array   array of all data-markup-id values stripped of square brackets
+ * @param $markup                                       array   array of all data-markup-id values
+ * @param $markup_stripped_of_square_brackets           array   array of all data-markup-id values stripped of square brackets
  *                                                      to be used as query args
  *
  */
@@ -480,9 +482,9 @@ function bvhg_add_action_hooks_for_all_markup_hooks( $markup_array ) {
  */
 function bvhg_enqueue_css_script_with_markup_array_for_all_markup_hooks( $markup_array ) {
 
-    add_action( 'wp_enqueue_scripts', function () use ( $markup_array ) {
-        bvhg_enqueue_element_id_script( $markup_array );
-    }, 1, 999 );
+	add_action( 'wp_enqueue_scripts', function () use ( $markup_array ) {
+		bvhg_enqueue_element_id_script( $markup_array );
+	}, 1, 999 );
 }
 
 /**
@@ -496,9 +498,9 @@ function bvhg_enqueue_css_script_with_markup_array_for_all_markup_hooks( $markup
  */
 function bvhg_enqueue_element_id_script( $markup_array ) {
 
-    if ( ! $markup_array ) {
-        return;
-    }
+	if ( ! $markup_array ) {
+		return;
+	}
 
 	wp_enqueue_script(
 		'element-id-css-changes',
@@ -522,7 +524,7 @@ function bvhg_enqueue_element_id_script( $markup_array ) {
  *
  * Displays a div element containing the full dynamic action hook id
  *
- * @param   $markup string  data-markup-id attribute
+ * @param   $markup string  data-markup-id attribute value
  */
 function bvhg_beans_before_markup( $markup ) {
 	echo '<div class="bvhg-hook-before-markup-cue" data-bvhg-hook-cue="' . $markup . '_before_markup">';
@@ -534,7 +536,7 @@ function bvhg_beans_before_markup( $markup ) {
  *
  * Displays a div element containing the full dynamic action hook id
  *
- * @param   $markup string  data-markup-id attribute
+ * @param   $markup string  data-markup-id attribute value
  */
 function bvhg_beans_prepend_markup( $markup ) {
 	echo '<div class="bvhg-hook-prepend-markup-cue" data-bvhg-hook-cue="' . $markup . '_prepend_markup">';
@@ -546,7 +548,7 @@ function bvhg_beans_prepend_markup( $markup ) {
  *
  * Displays a div element containing the full dynamic action hook id
  *
- * @param   $markup string  data-markup-id attribute
+ * @param   $markup string  data-markup-id attribute value
  */
 function bvhg_beans_append_markup( $markup ) {
 	echo '<div class="bvhg-hook-append-markup-cue" data-bvhg-hook-cue="' . $markup . '_append_markup">';
@@ -558,7 +560,7 @@ function bvhg_beans_append_markup( $markup ) {
  *
  * Displays a div element containing the full dynamic action hook id
  *
- * @param   $markup string  data-markup-id attribute
+ * @param   $markup string  data-markup-id attribute value
  */
 function bvhg_beans_after_markup( $markup ) {
 	echo '<div class="bvhg-hook-after-markup-cue" data-bvhg-hook-cue="' . $markup . '_after_markup">';
