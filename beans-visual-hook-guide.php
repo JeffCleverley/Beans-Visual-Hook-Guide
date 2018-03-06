@@ -262,7 +262,6 @@ function bvhg_clear_displayed_hooks( $bvhg_query_args_to_clear ) {
 }
 
 add_action( 'wp_enqueue_scripts', 'bvhg_script_to_scrape_markup_on_page_Load', 1 );
-add_action( 'wp_enqueue_scripts', 'bvhg_enqueue_css_if_guide_enabled', 1 );
 /**
  * Enqueue Script on page load that:
  * 1. Scrapes all data-markup-id values into an array.
@@ -293,6 +292,7 @@ function bvhg_script_to_scrape_markup_on_page_Load() {
 	);
 }
 
+add_action( 'wp_enqueue_scripts', 'bvhg_enqueue_css_if_guide_enabled', 1 );
 /**
  * Enqueue CSS only if BeansVisual Hook Guide is enabled
  */
