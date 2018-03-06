@@ -16,12 +16,12 @@ https://github.com/christophercochran/Genesis-Visual-Hook-Guide
 http://christophercochran.me
 */
 
-$beans_flavors = array(
-	'beans',
-	'tm-beans',
-);
+//$beans_flavors = array(
+//	'beans',
+//	'tm-beans',
+//);
 
-define( 'BEANS_FLAVORS', $beans_flavors );
+define( 'BEANS_FLAVORS', array( 'beans', 'tm-beans') );
 define( 'BEANS_PLUGIN_URL', plugins_url( null, __FILE__ ) );
 
 register_activation_hook( __FILE__, 'bvhg_environment_check' );
@@ -179,9 +179,7 @@ function bvhg_toolbar_second_level_links() {
 }
 
 /**
- * Function to strip the square brackets from the markup array,
- * So the array can be used to generate query args.
- *
+ * Function to strip the square brackets from the markup array, so the array can be used to generate query args.
  * Once stripped they are added to a global array.
  *
  * @param $markup_array_query_args  array   array of all HTML API data-markup-id scraped from the DOM
@@ -353,6 +351,7 @@ function bvhg_beans_hooker() {
 		return;
 	}
 
+
 	$markup_array = get_transient( 'beans_html_markup_transient' );
 
 	if ( ! $markup_array || 'show' != isset( $_GET['bvhg_enable'] ) ) {
@@ -485,9 +484,10 @@ function bvhg_add_action_hooks_for_all_markup_hooks( $markup_array ) {
  * @param $markup_array     array   Array of all data-markup-id values - used to add actions to all possible hooks.
  */
 function bvhg_enqueue_css_script_with_markup_array_for_all_markup_hooks( $markup_array ) {
-	add_action( 'wp_enqueue_scripts', function () use ( $markup_array ) {
-		bvhg_enqueue_element_id_script( $markup_array );
-	}, 1, 999 );
+
+    add_action( 'wp_enqueue_scripts', function () use ( $markup_array ) {
+        bvhg_enqueue_element_id_script( $markup_array );
+    }, 1, 999 );
 }
 
 /**
@@ -500,6 +500,10 @@ function bvhg_enqueue_css_script_with_markup_array_for_all_markup_hooks( $markup
  *                          or every single element with a data-markup-id value.
  */
 function bvhg_enqueue_element_id_script( $markup_array ) {
+
+    if ( ! $markup_array ) {
+        return;
+    }
 
 	wp_enqueue_script(
 		'element-id-css-changes',

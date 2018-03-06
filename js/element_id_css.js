@@ -2,6 +2,10 @@ jQuery(document).ready(function(){
 
   var classes = element.elementClass;
 
+  if (! classes ) {
+    return;
+  }
+
   for( var i = 0;  i < classes.length; i++) {
 
     var elementClass = classes[i];
