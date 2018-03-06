@@ -16,11 +16,6 @@ https://github.com/christophercochran/Genesis-Visual-Hook-Guide
 http://christophercochran.me
 */
 
-//$beans_flavors = array(
-//	'beans',
-//	'tm-beans',
-//);
-
 define( 'BEANS_FLAVORS', array( 'beans', 'tm-beans') );
 define( 'BEANS_PLUGIN_URL', plugins_url( null, __FILE__ ) );
 
