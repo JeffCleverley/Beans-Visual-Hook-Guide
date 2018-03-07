@@ -82,25 +82,26 @@ function bvhg_toolbar_top_level_links() {
 	}
 
 	$toolbar_top_link_args = array(
-	        'development_mode_disabled' => array(
-		        'id'       => 'bvhg_hooks',
-		        'title'    => __( 'Beans Visual Hook Guide requires development mode to be enabled!', 'beans-visual-hook-guide' ),
-		        'href'     => get_site_url() . '/wp-admin/themes.php?page=beans_settings',
-            ),
-            'enable_visual_hook_guide' => array(
-	            'id'       => 'bvhg_hooks',
-	            'title'    => __( 'Enable Beans Visual Hook Guide', 'beans-visual-hook-guide' ),
-	            'href'     => esc_url( add_query_arg( 'bvhg_enable', 'show' ) ),
-            ),
-            'add_visual_hook_guide' => array(
-	            'id'       => 'bvhg_html',
-	            'title'    => __( 'Beans Visual Hook Guide', 'beans-visual-hook-guide' ),
-	            'href'     => '',
-            ),
-    );
+		'development_mode_disabled' => array(
+			'id'    => 'bvhg_hooks',
+			'title' => __( 'Beans Visual Hook Guide requires development mode to be enabled!', 'beans-visual-hook-guide' ),
+			'href'  => get_site_url() . '/wp-admin/themes.php?page=beans_settings',
+		),
+		'enable_visual_hook_guide'  => array(
+			'id'    => 'bvhg_hooks',
+			'title' => __( 'Enable Beans Visual Hook Guide', 'beans-visual-hook-guide' ),
+			'href'  => esc_url( add_query_arg( 'bvhg_enable', 'show' ) ),
+		),
+		'add_visual_hook_guide'     => array(
+			'id'    => 'bvhg_html',
+			'title' => __( 'Beans Visual Hook Guide', 'beans-visual-hook-guide' ),
+			'href'  => '',
+		),
+	);
 
 	if ( ! _beans_is_html_dev_mode() ) {
-	    bvhg_add_toolbar_top_link( $toolbar_top_link_args['development_mode_disabled'] );
+		bvhg_add_toolbar_top_link( $toolbar_top_link_args['development_mode_disabled'] );
+
 		return;
 	}
 
@@ -120,7 +121,7 @@ function bvhg_toolbar_top_level_links() {
  *
  * @param $menu_args    array   values to generate the required link.
  */
-function bvhg_add_toolbar_top_link( $menu_args ){
+function bvhg_add_toolbar_top_link( $menu_args ) {
 
 	global $wp_admin_bar;
 
@@ -177,32 +178,32 @@ function bvhg_toolbar_second_level_link_arg_generation( $bvhg_query_args_to_clea
 
 	global $markup_array_query_args_stripped;
 
-    $toolbar_drop_down_links_args = array(
-            'html_list' => array(
-                 'id'      =>  'bvhg_html_list',
-	            'title'    => __( 'All HTML API Hooks List - Show Individually', 'beans-visual-hook-guide' ),
-	            'href'     => '',
-            ),
-            'show_all' => array(
-                    'id'  =>  'bvhg_show_all_html',
-	            'title'    => __( 'Show ALL HTML API Hooks (Crazy Mode)', 'beans-visual-hook-guide' ),
-	            'href'     => esc_url( add_query_arg( 'bvhg_enable_every_html_hook', 'show' ) ),
-            ),
-            'clear' => array(
-                    'id'    => 'bvhg_html_clear',
-	            'title'    => __( 'Clear all displayed Hooks', 'beans-visual-hook-guide' ),
-	            'href'     => esc_url( remove_query_arg( $markup_array_query_args_stripped ) ),
-            ),
-            'clear_disable' => array(
-                    'id'    => 'bvhg_html_clear_disable',
-	            'title'    => __( 'Disable Beans HTML API Visual Hook Guide', 'beans-visual-hook-guide' ),
-	            'href'     => esc_url( remove_query_arg( $bvhg_query_args_to_clear ) ),
-            )
-    );
+	$toolbar_drop_down_links_args = array(
+		'html_list'     => array(
+			'id'    => 'bvhg_html_list',
+			'title' => __( 'All HTML API Hooks List - Show Individually', 'beans-visual-hook-guide' ),
+			'href'  => '',
+		),
+		'show_all'      => array(
+			'id'    => 'bvhg_show_all_html',
+			'title' => __( 'Show ALL HTML API Hooks (Crazy Mode)', 'beans-visual-hook-guide' ),
+			'href'  => esc_url( add_query_arg( 'bvhg_enable_every_html_hook', 'show' ) ),
+		),
+		'clear'         => array(
+			'id'    => 'bvhg_html_clear',
+			'title' => __( 'Clear all displayed Hooks', 'beans-visual-hook-guide' ),
+			'href'  => esc_url( remove_query_arg( $markup_array_query_args_stripped ) ),
+		),
+		'clear_disable' => array(
+			'id'    => 'bvhg_html_clear_disable',
+			'title' => __( 'Disable Beans HTML API Visual Hook Guide', 'beans-visual-hook-guide' ),
+			'href'  => esc_url( remove_query_arg( $bvhg_query_args_to_clear ) ),
+		)
+	);
 
-    foreach ( $toolbar_drop_down_links_args as $toolbar_drop_down_links_arg ) {
-	    bvhg_toolbar_generate_second_level_links( $toolbar_drop_down_links_arg );
-    }
+	foreach ( $toolbar_drop_down_links_args as $toolbar_drop_down_links_arg ) {
+		bvhg_toolbar_generate_second_level_links( $toolbar_drop_down_links_arg );
+	}
 }
 
 /**
@@ -337,7 +338,8 @@ function bvhg_beans_hooker() {
 	bvhg_add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $markup_array );
 
 	if ( 'show' != isset( $_GET['bvhg_enable_every_html_hook'] ) ) {
-	    bvhg_enqueue_css_script_with_markup_array_for_chosen_hooks_only();
+		bvhg_enqueue_css_script_with_markup_array_for_chosen_hooks_only();
+
 		return;
 	}
 
@@ -368,8 +370,8 @@ function bvhg_add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $marku
 /**
  * Function to add toolbar nodes for all possible markup hooks that can be chosen
  *
- * @param $markup                               array   array of all data-markup-id values
- * @param $markup_stripped_of_square_brackets   array   array of all data-markup-id values stripped of square brackets
+ * @param $markup                                       array   array of all data-markup-id values
+ * @param $markup_stripped_of_square_brackets           array   array of all data-markup-id values stripped of square brackets
  *                                                      to be used as query args
  */
 function bvhg_add_toolbar_nodes_for_individual_markup_hooks( $markup, $markup_stripped_of_square_brackets ) {
@@ -391,8 +393,8 @@ function bvhg_add_toolbar_nodes_for_individual_markup_hooks( $markup, $markup_st
  * Function that adds actions to display markup on all chosen action hooks
  * Add the current markup query arg to the global markup array for making individual css changes.
  *
- * @param $markup                               array   array of all data-markup-id values
- * @param $markup_stripped_of_square_brackets   array   array of all data-markup-id values stripped of square brackets
+ * @param $markup                                       array   array of all data-markup-id values
+ * @param $markup_stripped_of_square_brackets           array   array of all data-markup-id values stripped of square brackets
  *                                                      to be used as query args
  *
  */
