@@ -16,6 +16,10 @@ https://github.com/christophercochran/Genesis-Visual-Hook-Guide
 http://christophercochran.me
 */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit( 'Hello, Hello, Hello, what\'s going on here then?');
+}
+
 $beans_flavors = array(
 	'beans',
 	'tm-beans',
