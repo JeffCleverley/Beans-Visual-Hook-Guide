@@ -134,7 +134,7 @@ function bvhg_add_toolbar_top_link( $menu_args ){
 	);
 }
 
-add_action( 'admin_bar_menu', 'bvhg_toolbar_second_level_links', 101 );
+add_action( 'admin_bar_menu', 'bvhg_toolbar_second_level_link_prep', 101 );
 /**
  * Add the Admin Toolbar 2nd Level Links - to appear in drop-down:
  * 1. Execute function to show all possible HTML Hooks in a Submenu to allow them to be selected individually.
@@ -142,7 +142,7 @@ add_action( 'admin_bar_menu', 'bvhg_toolbar_second_level_links', 101 );
  * 3. Execute function to clear the display of all currently selected hooks.
  * 4. Execute function to disable Visual Hook guide and clear the display of all currently selected hooks.
  */
-function bvhg_toolbar_second_level_links() {
+function bvhg_toolbar_second_level_link_prep() {
 
 	$markup_array_query_args = get_transient( 'beans_html_markup_transient' );
 
@@ -164,12 +164,45 @@ function bvhg_toolbar_second_level_links() {
 
 	$markup_array_query_args_stripped[] = 'bvhg_enable_every_html_hook';
 
-	bvhg_show_html_hooks_individually_from_list_toolbar_link();
+	bvhg_toolbar_second_level_link_arg_generation( $bvhg_query_args_to_clear );
+}
 
-	bvhg_show_all_html_hooks_in_crazy_mode_toolbar_link();
+/**
+ * Create a multidimensional array of all the args required to add the admin nodes,
+ * then loop through them and execute a function with each arg array passed.
+ *
+ * @param $bvhg_query_args_to_clear     array   Query args array to be used to clear the display
+ */
+function bvhg_toolbar_second_level_link_arg_generation( $bvhg_query_args_to_clear ) {
 
-	bvhg_clear_displayed_hooks( $bvhg_query_args_to_clear );
+	global $markup_array_query_args_stripped;
 
+    $toolbar_drop_down_links_args = array(
+            'html_list' => array(
+                 'id'      =>  'bvhg_html_list',
+	            'title'    => __( 'All HTML API Hooks List - Show Individually', 'beans-visual-hook-guide' ),
+	            'href'     => '',
+            ),
+            'show_all' => array(
+                    'id'  =>  'bvhg_show_all_html',
+	            'title'    => __( 'Show ALL HTML API Hooks (Crazy Mode)', 'beans-visual-hook-guide' ),
+	            'href'     => esc_url( add_query_arg( 'bvhg_enable_every_html_hook', 'show' ) ),
+            ),
+            'clear' => array(
+                    'id'    => 'bvhg_html_clear',
+	            'title'    => __( 'Clear all displayed Hooks', 'beans-visual-hook-guide' ),
+	            'href'     => esc_url( remove_query_arg( $markup_array_query_args_stripped ) ),
+            ),
+            'clear_disable' => array(
+                    'id'    => 'bvhg_html_clear_disable',
+	            'title'    => __( 'Disable Beans HTML API Visual Hook Guide', 'beans-visual-hook-guide' ),
+	            'href'     => esc_url( remove_query_arg( $bvhg_query_args_to_clear ) ),
+            )
+    );
+
+    foreach ( $toolbar_drop_down_links_args as $toolbar_drop_down_links_arg ) {
+	    bvhg_toolbar_generate_second_level_links( $toolbar_drop_down_links_arg );
+    }
 }
 
 /**
@@ -191,75 +224,23 @@ function bvhg_strip_markup_query_args_of_square_brackets( $markup_array_query_ar
 }
 
 /**
- * Function to create a toolbar node to show all possible HTML Hooks in a Submenu to allow them to be selected individually.
- */
-function bvhg_show_html_hooks_individually_from_list_toolbar_link() {
-
-	global $wp_admin_bar;
-
-	$wp_admin_bar->add_node(
-		array(
-			'id'       => 'bvhg_html_list',
-			'parent'   => 'bvhg_html',
-			'title'    => __( 'All HTML API Hooks List - Show Individually', 'beans-visual-hook-guide' ),
-			'href'     => '',
-			'position' => 10,
-		)
-	);
-}
-
-/**
- * Function to create a toolbar node to show all possible HTML hooks on screen at once (Crazy Mode).
- */
-function bvhg_show_all_html_hooks_in_crazy_mode_toolbar_link() {
-
-	global $wp_admin_bar;
-
-	$wp_admin_bar->add_node(
-		array(
-			'id'       => 'bvhg_show_all_html',
-			'parent'   => 'bvhg_html',
-			'title'    => __( 'Show ALL HTML API Hooks (Crazy Mode)', 'beans-visual-hook-guide' ),
-			'href'     => esc_url( add_query_arg( 'bvhg_enable_every_html_hook', 'show' ) ),
-			'position' => 10,
-		)
-	);
-}
-
-/**
- * Function to add toolbar nodes to:
- * 1. Clear the display of all currently selected hooks.
- * 2. Disable the visual hook guide and clear the display of selected hooks.
+ * Function used to generate the toolbar second level links, using the args generated and passed to it.
  *
- * @param $bvhg_query_args_to_clear     array   Array of all top level mode query_args.
- *
- * Note! - All markup query args generated on the fly are brought in globally
+ * @param $toolbar_drop_down_links_arg      array   Array of the args required to generate each link.
  */
-function bvhg_clear_displayed_hooks( $bvhg_query_args_to_clear ) {
+function bvhg_toolbar_generate_second_level_links( $toolbar_drop_down_links_arg ) {
 
 	global $wp_admin_bar;
-	global $markup_array_query_args_stripped;
 
 	$wp_admin_bar->add_node(
 		array(
-			'id'       => 'bvhg_html_clear',
+			'id'       => $toolbar_drop_down_links_arg['id'],
 			'parent'   => 'bvhg_html',
-			'title'    => __( 'Clear all displayed Hooks', 'beans-visual-hook-guide' ),
-			'href'     => esc_url( remove_query_arg( $markup_array_query_args_stripped ) ),
+			'title'    => $toolbar_drop_down_links_arg['title'],
+			'href'     => $toolbar_drop_down_links_arg['href'],
 			'position' => 10,
 		)
 	);
-
-	$wp_admin_bar->add_node(
-		array(
-			'id'       => 'bvhg_html_clear_disable',
-			'parent'   => 'bvhg_html',
-			'title'    => __( 'Disable Beans HTML API Visual Hook Guide', 'beans-visual-hook-guide' ),
-			'href'     => esc_url( remove_query_arg( $bvhg_query_args_to_clear ) ),
-			'position' => 10,
-		)
-	);
-
 }
 
 add_action( 'wp_enqueue_scripts', 'bvhg_script_to_scrape_markup_on_page_Load', 1 );
