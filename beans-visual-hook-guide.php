@@ -16,6 +16,11 @@ https://github.com/christophercochran/Genesis-Visual-Hook-Guide
 http://christophercochran.me
 */
 
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit( 'Hello Hello Hello, what\'s going on here then?' );
+}
+
 define( 'BEANS_FLAVORS', array( 'beans', 'tm-beans' ) );
 define( 'BEANS_PLUGIN_URL', plugins_url( null, __FILE__ ) );
 
@@ -377,7 +382,7 @@ function bvhg_beans_hooker() {
 function bvhg_add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $markup_array ) {
 
 	foreach ( $markup_array as $markup ) {
-	    $markup_stripped_of_opening_square_bracket = str_replace( '[', '', $markup );
+		$markup_stripped_of_opening_square_bracket = str_replace( '[', '', $markup );
 		$markup_stripped_of_all_square_brackets    = str_replace( ']', '', $markup_stripped_of_opening_square_bracket );
 
 		bvhg_add_toolbar_nodes_for_individual_markup_hooks( $markup, $markup_stripped_of_all_square_brackets );
