@@ -20,12 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Hello, Hello, Hello, what\'s going on here then?' );
 }
 
-$beans_flavors = array(
-	'beans',
-	'tm-beans',
-);
-
-define( 'BEANS_FLAVORS', $beans_flavors );
+define( 'BEANS_FLAVORS', array( 'beans', 'tm-beans' ) );
 define( 'BEANS_PLUGIN_URL', plugins_url( null, __FILE__ ) );
 
 register_activation_hook( __FILE__, 'bvhg_environment_check' );
@@ -249,7 +244,6 @@ function bvhg_toolbar_generate_second_level_links( $toolbar_drop_down_links_arg 
 }
 
 add_action( 'wp_enqueue_scripts', 'bvhg_script_to_scrape_markup_on_page_Load', 1 );
-add_action( 'wp_enqueue_scripts', 'bvhg_enqueue_css_if_guide_enabled', 1 );
 /**
  * Enqueue Script on page load that:
  * 1. Scrapes all data-markup-id values into an array.
@@ -280,6 +274,7 @@ function bvhg_script_to_scrape_markup_on_page_Load() {
 	);
 }
 
+add_action( 'wp_enqueue_scripts', 'bvhg_enqueue_css_if_guide_enabled', 1 );
 /**
  * Enqueue CSS only if BeansVisual Hook Guide is enabled
  */
@@ -313,6 +308,7 @@ function bvhg_pass_markup_id_array_callback() {
 	if ( get_transient( 'beans_html_markup_transient' ) ) {
 		delete_transient( 'beans_html_markup_transient' );
 	}
+
 	set_transient( 'beans_html_markup_transient', $markup_array_for_transient, 12 * HOUR_IN_SECONDS );
 
 	die();
@@ -493,9 +489,7 @@ function bvhg_enqueue_element_id_script( $markup_array ) {
 	wp_localize_script(
 		'element-id-css-changes',
 		'element',
-		array(
-			'elementClass' => $markup_array,
-		)
+		array( 'elementClass' => $markup_array )
 	);
 }
 
