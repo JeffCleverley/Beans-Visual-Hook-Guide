@@ -81,64 +81,54 @@ function bvhg_toolbar_top_level_links() {
 		return;
 	}
 
+	$toolbar_top_link_args = array(
+	        'development_mode_disabled' => array(
+		        'id'       => 'bvhg_hooks',
+		        'title'    => __( 'Beans Visual Hook Guide requires development mode to be enabled!', 'beans-visual-hook-guide' ),
+		        'href'     => get_site_url() . '/wp-admin/themes.php?page=beans_settings',
+            ),
+            'enable_visual_hook_guide' => array(
+	            'id'       => 'bvhg_hooks',
+	            'title'    => __( 'Enable Beans Visual Hook Guide', 'beans-visual-hook-guide' ),
+	            'href'     => esc_url( add_query_arg( 'bvhg_enable', 'show' ) ),
+            ),
+            'add_visual_hook_guide' => array(
+	            'id'       => 'bvhg_html',
+	            'title'    => __( 'Beans Visual Hook Guide', 'beans-visual-hook-guide' ),
+	            'href'     => '',
+            ),
+    );
+
 	if ( ! _beans_is_html_dev_mode() ) {
-		bvhg_add_toolbar_link_to_beans_settings_if_development_mode_disabled();
+	    bvhg_add_toolbar_top_link( $toolbar_top_link_args['development_mode_disabled'] );
 		return;
 	}
 
 	if ( 'show' != isset( $_GET['bvhg_enable'] ) ) {
-		bvhg_add_toolbar_link_to_enable_beans_visual_hook_guide();
+		bvhg_add_toolbar_top_link( $toolbar_top_link_args['enable_visual_hook_guide'] );
 	} elseif ( 'show' == isset( $_GET['bvhg_enable'] ) ) {
-		bvhg_add_visual_hook_guide_toolbar_link();
+		bvhg_add_toolbar_top_link( $toolbar_top_link_args['add_visual_hook_guide'] );
 	}
 }
 
 /**
- *  Function to add Link to Beans Theme Settings if Development mode is inactive.
+ *  Function to add Beans Visual Hook Guide Top level links
+ *
+ * 1. Generate link to Beans Setting if Development mode is disabled
+ * 2. Generate a link to enable Beans Visual Hook Guide
+ * 3. Generate Top Level Menu for configuration drop-downs
+ *
+ * @param $menu_args    array   values to generate the required link.
  */
-function bvhg_add_toolbar_link_to_beans_settings_if_development_mode_disabled() {
+function bvhg_add_toolbar_top_link( $menu_args ){
 
 	global $wp_admin_bar;
 
 	$wp_admin_bar->add_node(
 		array(
-			'id'       => 'bvhg_hooks',
-			'title'    => __( 'Beans Visual Hook Guide requires development mode to be enabled!', 'beans-visual-hook-guide' ),
-			'href'     => get_site_url() . '/wp-admin/themes.php?page=beans_settings',
-			'position' => 0,
-		)
-	);
-}
-
-/**
- * Function to enable Visual Guide if Development mode is active
- */
-function bvhg_add_toolbar_link_to_enable_beans_visual_hook_guide() {
-
-	global $wp_admin_bar;
-
-	$wp_admin_bar->add_node(
-		array(
-			'id'       => 'bvhg_hooks',
-			'title'    => __( 'Enable Beans Visual Hook Guide', 'beans-visual-hook-guide' ),
-			'href'     => esc_url( add_query_arg( 'bvhg_enable', 'show' ) ),
-			'position' => 0,
-		)
-	);
-}
-
-/**
- * Function to add Visual Guide Top level link if Visual Guide is enabled.
- */
-function bvhg_add_visual_hook_guide_toolbar_link() {
-
-	global $wp_admin_bar;
-
-	$wp_admin_bar->add_node(
-		array(
-			'id'       => 'bvhg_html',
-			'title'    => __( 'Beans Visual Hook Guide', 'beans-visual-hook-guide' ),
-			'href'     => '',
+			'id'       => $menu_args['id'],
+			'title'    => $menu_args['title'],
+			'href'     => $menu_args['href'],
 			'position' => 0,
 		)
 	);
