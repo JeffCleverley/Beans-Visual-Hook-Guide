@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Beans HTML API Visual Hook Guide
+Plugin Name: Beans Visual Hook Guide
 Plugin URI: https://github.com/JeffCleverley/Beans-Visual-Hook-Guide
-Description: Find Beans Hooks (HTML API created action hooks only) quickly and easily by seeing their actual locations inside your theme.
+Description: Find Beans Hooks (HTML API created action hooks only at the moment) quickly and easily by seeing their actual locations inside your theme.
 Version: 1.0.0
-Author: Jeff R Cleverley
+Author: Jeff Cleverley
 Author URI: https://learningcurve.xyz
 Text Domain: beans-visual-hook-guide
 License: GPLv2
@@ -20,8 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Hello, Hello, Hello, what\'s going on here then?' );
 }
 
-define( 'BEANS_FLAVORS', array( 'beans', 'tm-beans' ) );
-define( 'BEANS_PLUGIN_URL', plugins_url( null, __FILE__ ) );
+define( 'BVHG_BEANS_FLAVOURS', array( 'beans', 'tm-beans' ) );
+define( 'BVHG_BEANS_PLUGIN_URL', plugins_url( null, __FILE__ ) );
 
 register_activation_hook( __FILE__, 'bvhg_environment_check' );
 add_action( 'switch_theme', 'bvhg_environment_check' );
@@ -36,7 +36,7 @@ add_action( 'switch_theme', 'bvhg_environment_check' );
  */
 function bvhg_environment_check() {
 
-	$is_beans          = in_array( wp_get_theme()->Template, BEANS_FLAVORS );
+	$is_beans          = in_array( wp_get_theme()->Template, BVHG_BEANS_FLAVOURS );
 	$deactivate_plugin = deactivate_plugins( plugin_basename( __FILE__ ) );
 
 	if ( ! $is_beans && current_filter() != 'switch_theme' ) {
@@ -57,8 +57,8 @@ add_action( 'admin_notices', 'bvhg_active_notice' );
 function bvhg_active_notice() {
 
 	if ( ! _beans_is_html_dev_mode() ) {
-		echo '<div class="notice notice-warning" >'; ?>
-        <p><?php _e( 'Beans Visual Hook Guide is currently active, but it also requires Development mode to be active. If this is a production site, remember to deactivate both after use.', 'beans-visual-hook-guide' ) ?></p><?php
+		echo '<div class="notice notice-error" >'; ?>
+        <p><?php _e( 'Beans Visual Hook Guide is currently installed, but it also requires Development mode to be active before it can be enabled on the toolbar.', 'beans-visual-hook-guide' ) ?></p><?php
 		echo '</div>';
 	} else {
 		echo '<div class="notice notice-warning" >'; ?>
@@ -258,7 +258,7 @@ function bvhg_script_to_scrape_markup_on_page_Load() {
 
 	wp_enqueue_script(
 		'scrape-the-markup-ids',
-		BEANS_PLUGIN_URL . '/js/scrape_markup_ids.js',
+		BVHG_BEANS_PLUGIN_URL . '/js/scrape_markup_ids.js',
 		array( 'jquery' ),
 		'1.0.0',
 		true
@@ -285,7 +285,7 @@ function bvhg_enqueue_css_if_guide_enabled() {
 	};
 
 	if ( 'show' == isset( $_GET['bvhg_enable'] ) ) {
-		wp_enqueue_style( 'bvhg_styles', BEANS_PLUGIN_URL . '/css/bvhg_styles.css' );
+		wp_enqueue_style( 'bvhg_styles', BVHG_BEANS_PLUGIN_URL . '/css/bvhg_styles.css' );
 	}
 }
 
@@ -302,14 +302,23 @@ function bvhg_pass_markup_id_array_callback() {
 
 	check_ajax_referer( 'my-special-string', 'security' );
 
-	$markup_array_from_ajax     = $_POST['markup'];
-	$markup_array_for_transient = array_unique( $markup_array_from_ajax );
+	if ( ! isset( $_POST['markup'] ) ) {
+		return;
+	}
+
+	$non_sanitized_markup_array_from_ajax = $_POST['markup'];
+	$non_sanitized_markup_array = array_unique( $non_sanitized_markup_array_from_ajax );
+
+	$sanitized_markup_array = array();
+	foreach( $non_sanitized_markup_array as $non_sanitized_markup ) {
+	    $sanitized_markup_array[] = sanitize_text_field( $non_sanitized_markup );
+    }
 
 	if ( get_transient( 'beans_html_markup_transient' ) ) {
 		delete_transient( 'beans_html_markup_transient' );
 	}
 
-	set_transient( 'beans_html_markup_transient', $markup_array_for_transient, 12 * HOUR_IN_SECONDS );
+	set_transient( 'beans_html_markup_transient',  $sanitized_markup_array, 12 * HOUR_IN_SECONDS );
 
 	die();
 }
@@ -335,7 +344,12 @@ function bvhg_beans_hooker() {
 		return;
 	}
 
-	bvhg_add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $markup_array );
+	$escaped_markup_array = array();
+	foreach( $markup_array as $markup_string ) {
+		$escaped_markup_array[] = esc_attr( $markup_string );
+    }
+
+	bvhg_add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $escaped_markup_array );
 
 	if ( 'show' != isset( $_GET['bvhg_enable_every_html_hook'] ) ) {
 		bvhg_enqueue_css_script_with_markup_array_for_chosen_hooks_only();
@@ -343,8 +357,8 @@ function bvhg_beans_hooker() {
 		return;
 	}
 
-	bvhg_add_action_hooks_for_all_markup_hooks( $markup_array );
-	bvhg_enqueue_css_script_with_markup_array_for_all_markup_hooks( $markup_array );
+	bvhg_add_action_hooks_for_all_markup_hooks( $escaped_markup_array );
+	bvhg_enqueue_css_script_with_markup_array_for_all_markup_hooks( $escaped_markup_array );
 
 }
 
@@ -478,9 +492,13 @@ function bvhg_enqueue_css_script_with_markup_array_for_all_markup_hooks( $markup
  */
 function bvhg_enqueue_element_id_script( $markup_array ) {
 
+    if ( ! $markup_array ) {
+        return;
+    }
+
 	wp_enqueue_script(
 		'element-id-css-changes',
-		BEANS_PLUGIN_URL . '/js/element_id_css.js',
+		BVHG_BEANS_PLUGIN_URL . '/js/element_id_css.js',
 		array( 'jquery' ),
 		'1.0.0',
 		true
