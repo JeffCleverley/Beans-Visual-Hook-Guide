@@ -57,9 +57,14 @@ add_action( 'admin_notices', 'bvhg_active_notice' );
 function bvhg_active_notice() {
 
 	if ( ! _beans_is_html_dev_mode() ) {
-		echo '<div class="notice notice-error" >'; ?>
-        <p><?php _e( 'Beans Visual Hook Guide is currently installed, but it also requires Development mode to be active before it can be enabled on the toolbar.', 'beans-visual-hook-guide' ) ?></p><?php
-		echo '</div>';
+		echo '<div class="notice notice-error" ><p>';
+		echo sprintf(
+		        __(
+                    'Beans Visual Hook Guide is currently installed, but it also requires <a href="%s">Development</a> mode to be active before it can be enabled on the toolbar.',
+                    'beans-visual-hook-guide'
+                ),
+                esc_url( get_site_url() . '/wp-admin/themes.php?page=beans_settings' ) );
+		echo '</p></div>';
 	} else {
 		echo '<div class="notice notice-warning" >'; ?>
         <p><?php _e( 'Beans Visual Hook Guide and Development mode are both active. If this is a production site, remember to deactivate both after use.', 'beans-visual-hook-guide' ) ?></p><?php
@@ -84,7 +89,7 @@ function bvhg_toolbar_top_level_links() {
 		'development_mode_disabled' => array(
 			'id'    => 'bvhg_hooks',
 			'title' => __( 'Beans Visual Hook Guide requires development mode to be enabled!', 'beans-visual-hook-guide' ),
-			'href'  => get_site_url() . '/wp-admin/themes.php?page=beans_settings',
+			'href'  => esc_url( get_site_url() . '/wp-admin/themes.php?page=beans_settings' ),
 		),
 		'enable_visual_hook_guide'  => array(
 			'id'    => 'bvhg_hooks',
@@ -280,7 +285,7 @@ add_action( 'wp_enqueue_scripts', 'bvhg_enqueue_css_if_guide_enabled', 1 );
  */
 function bvhg_enqueue_css_if_guide_enabled() {
 
-	if ( is_customize_preview() ) {
+	if ( ! _beans_is_html_dev_mode() || is_customize_preview() ) {
 		return;
 	};
 
@@ -307,18 +312,18 @@ function bvhg_pass_markup_id_array_callback() {
 	}
 
 	$non_sanitized_markup_array_from_ajax = $_POST['markup'];
-	$non_sanitized_markup_array = array_unique( $non_sanitized_markup_array_from_ajax );
+	$non_sanitized_markup_array           = array_unique( $non_sanitized_markup_array_from_ajax );
 
 	$sanitized_markup_array = array();
-	foreach( $non_sanitized_markup_array as $non_sanitized_markup ) {
-	    $sanitized_markup_array[] = sanitize_text_field( $non_sanitized_markup );
-    }
+	foreach ( $non_sanitized_markup_array as $non_sanitized_markup ) {
+		$sanitized_markup_array[] = sanitize_text_field( $non_sanitized_markup );
+	}
 
 	if ( get_transient( 'beans_html_markup_transient' ) ) {
 		delete_transient( 'beans_html_markup_transient' );
 	}
 
-	set_transient( 'beans_html_markup_transient',  $sanitized_markup_array, 12 * HOUR_IN_SECONDS );
+	set_transient( 'beans_html_markup_transient', $sanitized_markup_array, 12 * HOUR_IN_SECONDS );
 
 	die();
 }
@@ -334,7 +339,7 @@ add_action( 'beans_head', 'bvhg_beans_hooker' );
  */
 function bvhg_beans_hooker() {
 
-	if ( is_customize_preview() ) {
+	if (  ! _beans_is_html_dev_mode() || is_customize_preview() ) {
 		return;
 	}
 
@@ -345,9 +350,9 @@ function bvhg_beans_hooker() {
 	}
 
 	$escaped_markup_array = array();
-	foreach( $markup_array as $markup_string ) {
+	foreach ( $markup_array as $markup_string ) {
 		$escaped_markup_array[] = esc_attr( $markup_string );
-    }
+	}
 
 	bvhg_add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $escaped_markup_array );
 
@@ -492,9 +497,9 @@ function bvhg_enqueue_css_script_with_markup_array_for_all_markup_hooks( $markup
  */
 function bvhg_enqueue_element_id_script( $markup_array ) {
 
-    if ( ! $markup_array ) {
-        return;
-    }
+	if ( ! $markup_array ) {
+		return;
+	}
 
 	wp_enqueue_script(
 		'element-id-css-changes',
