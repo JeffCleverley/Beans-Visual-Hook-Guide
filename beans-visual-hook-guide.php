@@ -13,7 +13,7 @@
  * Plugin URI:      https://github.com/JeffCleverley/Beans-Visual-Hook-Guide
  * Description:     Find Beans Hooks (HTML API created action hooks only at the moment) quickly and easily by seeing
  * their actual locations inside your theme.
- * Version:         1.0.001
+ * Version:         1.0.1
  * Author:          Jeff Cleverley
  * Author URI:      https://learningcurve.xyz
  * License URI:     https://www.gnu.org/licenses/gpl-2.0.html
@@ -48,7 +48,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function _get_plugin_version() {
-	return '1.0.0001';
+	return '1.0.1';
 }
 
 /**
