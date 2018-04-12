@@ -11,6 +11,8 @@
 
 namespace LearningCurve\BeansVisualHookGuide\Asset;
 
+use function LearningCurve\BeansVisualHookGuide\_get_plugin_url;
+use function LearningCurve\BeansVisualHookGuide\_get_plugin_version;
 use function LearningCurve\BeansVisualHookGuide\is_set_to_show_bvhg;
 
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\script_to_scrape_markup_on_page_Load', 1 );
@@ -28,9 +30,9 @@ function script_to_scrape_markup_on_page_Load() {
 
 	wp_enqueue_script(
 		'scrape-the-markup-ids',
-		BVHG_BEANS_PLUGIN_URL . '/js/scrape_markup_ids.js',
+		_get_plugin_url() . '/js/scrape_markup_ids.js',
 		array( 'jquery' ),
-		'1.0.0',
+		_get_plugin_version(),
 		true
 	);
 
@@ -58,7 +60,7 @@ function enqueue_css_if_guide_enabled() {
 		return;
 	}
 
-	wp_enqueue_style( 'bvhg_styles', BVHG_BEANS_PLUGIN_URL . '/css/bvhg_styles.css' );
+	wp_enqueue_style( 'bvhg_styles', _get_plugin_url() . '/css/bvhg_styles.css' );
 }
 
 /**
@@ -100,9 +102,9 @@ function enqueue_element_id_script( $markup_array ) {
 
 	wp_enqueue_script(
 		'element-id-css-changes',
-		BVHG_BEANS_PLUGIN_URL . '/js/element_id_css.js',
+		_get_plugin_url() . '/js/element_id_css.js',
 		array( 'jquery' ),
-		'1.0.0',
+		_get_plugin_version(),
 		true
 	);
 

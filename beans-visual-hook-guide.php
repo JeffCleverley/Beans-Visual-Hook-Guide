@@ -38,7 +38,50 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Hello, Hello, Hello, what\'s going on here then?' );
 }
 
-define( 'BVHG_BEANS_PLUGIN_URL', plugins_url( null, __FILE__ ) );
+/**
+ * Get this plugin's version number.
+ *
+ * @since 1.0.1
+ * @ignore
+ * @access private
+ *
+ * @return string
+ */
+function _get_plugin_version() {
+	return '1.0.1';
+}
+
+/**
+ * Gets this plugin's absolute directory path.
+ *
+ * @since 1.0.0
+ * @ignore
+ * @access private
+ *
+ * @return string
+ */
+function _get_plugin_directory() {
+	return __DIR__;
+}
+
+/**
+ * Gets this plugin's URL.
+ *
+ * @since 1.0.1
+ * @ignore
+ * @access private
+ *
+ * @return string
+ */
+function _get_plugin_url() {
+	static $plugin_url;
+
+	if ( empty( $plugin_url ) ) {
+		$plugin_url = plugins_url( null, __FILE__ );
+	}
+
+	return $plugin_url;
+}
 
 register_activation_hook( __FILE__, __NAMESPACE__ . '\deactivate_when_beans_not_activated_theme' );
 add_action( 'switch_theme', __NAMESPACE__ . '\deactivate_when_beans_not_activated_theme' );
