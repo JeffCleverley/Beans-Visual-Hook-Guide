@@ -1,20 +1,36 @@
 <?php
-/*
-Plugin Name: Beans Visual Hook Guide
-Plugin URI: https://github.com/JeffCleverley/Beans-Visual-Hook-Guide
-Description: Find Beans Hooks (HTML API created action hooks only at the moment) quickly and easily by seeing their actual locations inside your theme.
-Version: 1.0.0
-Author: Jeff Cleverley
-Author URI: https://learningcurve.xyz
-Text Domain: beans-visual-hook-guide
-License: GPLv2
+/**
+ * Loads the Beans Visual Hook Guide plugin.
+ *
+ * @package    LearningCurve\BeansVisualHookGuide
+ * @since      1.0.0
+ * @author     Jeff Cleverley
+ * @link       https://learningcurve.xyz
+ * @license    GNU-2.0+
+ *
+ * @wordpress-plugin
+ * Plugin Name:     Beans Visual Hook Guide
+ * Plugin URI:      https://github.com/JeffCleverley/Beans-Visual-Hook-Guide
+ * Description:     Find Beans Hooks (HTML API created action hooks only at the moment) quickly and easily by seeing
+ * their actual locations inside your theme.
+ * Version:         1.0.1
+ * Author:          Jeff Cleverley
+ * Author URI:      https://learningcurve.xyz
+ * License URI:     https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:     beans-visual-hook-guid
+ * Requires WP:     4.8
+ * Requires PHP:    5.6
+ */
 
-This plugin was inspired by Christopher Cochran's Genesis Visual Hook Guide, one of my favourite plugins for Genesis Development.
-I started with his plugin and went from there.... Thank you very much Christopher!
-https://genesistutorials.com/visual-hook-guide/
-https://github.com/christophercochran/Genesis-Visual-Hook-Guide
-http://christophercochran.me
-*/
+/**
+ * Thanks to:
+ *
+ * This plugin was inspired by Christopher Cochran's Genesis Visual Hook Guide, one of my favourite plugins for
+ * Genesis Development. I started with his plugin and went from there.... Thank you very much Christopher!
+ * https://genesistutorials.com/visual-hook-guide/
+ * https://github.com/christophercochran/Genesis-Visual-Hook-Guide
+ * http://christophercochran.me
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Hello, Hello, Hello, what\'s going on here then?' );
