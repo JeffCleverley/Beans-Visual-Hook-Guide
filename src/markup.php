@@ -18,22 +18,22 @@ namespace LearningCurve\BeansVisualHookGuide;
  *
  * @since 1.0.0
  *
- * @param array $markup_ids    Array of Beans data-markup-id values.
- * @param array $raw_markup_ids   Array of the raw data-markup-id without the square brackets.
+ * @param string $markup_id     Markup ID from Beans' data-markup-id value.
+ * @param string $raw_markup_id The raw data-markup-id without the square brackets.
  *
  * @return void
  */
-function add_action_hooks_for_individually_chosen_markup_hooks( array $markup_ids, array $raw_markup_ids ) {
+function add_action_hooks_for_individually_chosen_markup_hooks( $markup_id, $raw_markup_id ) {
 
-	if ( ! is_query_arg_set_show( $raw_markup_ids ) ) {
+	if ( ! is_query_arg_set_show( $raw_markup_id ) ) {
 		return;
 	}
 
 	global $markup_array_for_individual_css_changes;
 
-	$markup_array_for_individual_css_changes[] = $markup_ids;
+	$markup_array_for_individual_css_changes[] = $markup_id;
 
-	_hook_into_beans_markup( $markup_ids );
+	_hook_into_beans_markup( $markup_id );
 }
 
 /**
@@ -55,7 +55,9 @@ function add_action_hooks_for_all_markup_hooks( $markup_ids ) {
 /**
  * Hook the markup ID into Beans's HTML API.
  *
- * @since 1.0.0
+ * @since  1.0.1
+ * @ignore
+ * @access private
  *
  * @param string $markup_id Markup ID.
  *
@@ -63,66 +65,37 @@ function add_action_hooks_for_all_markup_hooks( $markup_ids ) {
  */
 function _hook_into_beans_markup( $markup_id ) {
 	add_action( "{$markup_id}_before_markup", function() use ( $markup_id ) {
-		beans_before_markup( $markup_id );
+		_render_markup( $markup_id, 'before' );
 	}, 1 );
 
 	add_action( "{$markup_id}_prepend_markup", function() use ( $markup_id ) {
-		beans_prepend_markup( $markup_id );
+		_render_markup( $markup_id, 'prepend' );
 	}, 1 );
 
 	add_action( "{$markup_id}_append_markup", function() use ( $markup_id ) {
-		beans_append_markup( $markup_id );
+		_render_markup( $markup_id, 'append' );
 	}, 1 );
 
 	add_action( "{$markup_id}_after_markup", function() use ( $markup_id ) {
-		beans_after_markup( $markup_id );
+		_render_markup( $markup_id, 'after' );
 	}, 1 );
 }
 
 /**
- * Callback to be run on every possible $markup_before_markup html action hook
+ * Renders the Guide's markup out to the browser.
  *
- * Displays a div element containing the full dynamic action hook id
+ * @since  1.0.1
+ * @ignore
+ * @access private
  *
- * @param   $markup string  data-markup-id attribute
+ * @param string $markup_id Markup ID.
+ * @param string $type Beans' hook type, i.e. before, prepend, append, after
+ *
+ * @return void
  */
-function beans_before_markup( $markup ) {
-	echo '<div class="bvhg-hook-before-markup-cue" data-bvhg-hook-cue="' . $markup . '_before_markup">';
-	echo $markup . '_before_markup</div>';
-}
+function _render_markup( $markup_id, $type ) {
+	$markup_id = esc_attr( $markup_id );
+	$type      = esc_attr( $type );
 
-/**
- * Callback to be run on every possible $markup_prepend_markup html action hook
- *
- * Displays a div element containing the full dynamic action hook id
- *
- * @param   $markup string  data-markup-id attribute
- */
-function beans_prepend_markup( $markup ) {
-	echo '<div class="bvhg-hook-prepend-markup-cue" data-bvhg-hook-cue="' . $markup . '_prepend_markup">';
-	echo $markup . '_prepend_markup</div>';
-}
-
-/**
- * Callback to be run on every possible $markup_append_markup html action hook
- *
- * Displays a div element containing the full dynamic action hook id
- *
- * @param   $markup string  data-markup-id attribute
- */
-function beans_append_markup( $markup ) {
-	echo '<div class="bvhg-hook-append-markup-cue" data-bvhg-hook-cue="' . $markup . '_append_markup">';
-	echo $markup . '_append_markup</div>';
-}
-
-/**
- * Callback to be run on every possible $markup_after_markup html action hook
- *
- * Displays a div element containing the full dynamic action hook id
- *
- * @param   $markup string  data-markup-id attribute
- */
-function beans_after_markup( $markup ) {
-	echo '<div class="bvhg-hook-after-markup-cue" data-bvhg-hook-cue="' . $markup . '_after_markup">';
-	echo $markup . '_after_markup</div>';
+	require __DIR__ . '/views/markup.php';
 }
