@@ -1,6 +1,6 @@
 <?php
 /**
- * View file for admin error notice.
+ * View file for admin warning notice.
  *
  * @package LearningCurve\BeansVisualHookGuide\Admin
  *

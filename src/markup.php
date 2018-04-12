@@ -12,58 +12,71 @@
 namespace LearningCurve\BeansVisualHookGuide;
 
 /**
- * Function that adds actions to display markup on all chosen action hooks
+ * Add Beans HTML API actions to display markup on all chosen action hooks.
+ *
  * Add the current markup query arg to the global markup array for making individual css changes.
  *
- * @param $markup                                       array   array of all data-markup-id values
- * @param $markup_stripped_of_square_brackets           array   array of all data-markup-id values stripped of square brackets
- *                                                      to be used as query args
+ * @since 1.0.0
  *
+ * @param array $markup_ids    Array of Beans data-markup-id values.
+ * @param array $raw_markup_ids   Array of the raw data-markup-id without the square brackets.
+ *
+ * @return void
  */
-function add_action_hooks_for_individually_chosen_markup_hooks( $markup, $markup_stripped_of_square_brackets ) {
+function add_action_hooks_for_individually_chosen_markup_hooks( array $markup_ids, array $raw_markup_ids ) {
+
+	if ( ! is_query_arg_set_show( $raw_markup_ids ) ) {
+		return;
+	}
 
 	global $markup_array_for_individual_css_changes;
 
-	if ( is_query_arg_set_show( $markup_stripped_of_square_brackets ) ) {
+	$markup_array_for_individual_css_changes[] = $markup_ids;
 
-		$markup_array_for_individual_css_changes[] = $markup;
+	_hook_into_beans_markup( $markup_ids );
+}
 
-		add_action( "{$markup}_before_markup", function () use ( $markup ) {
-			beans_before_markup( $markup );
-		}, 1 );
-		add_action( "{$markup}_prepend_markup", function () use ( $markup ) {
-			beans_prepend_markup( $markup );
-		}, 1 );
-		add_action( "{$markup}_append_markup", function () use ( $markup ) {
-			beans_append_markup( $markup );
-		}, 1 );
-		add_action( "{$markup}_after_markup", function () use ( $markup ) {
-			beans_after_markup( $markup );
-		}, 1 );
+/**
+ * Add all action hooks for all possible markup.
+ *
+ * @since 1.0.0
+ *
+ * @param array $markup_ids Array of Beans data-markup-id values.
+ *
+ * @return void
+ */
+function add_action_hooks_for_all_markup_hooks( $markup_ids ) {
+
+	foreach ( $markup_ids as $markup ) {
+		_hook_into_beans_markup( $markup );
 	}
 }
 
 /**
- * Function to add all action hooks for all possible markup
+ * Hook the markup ID into Beans's HTML API.
  *
- * @param $markup_array     array   Array of all data-markup-id values - used to add actions to all possible hooks.
+ * @since 1.0.0
+ *
+ * @param string $markup_id Markup ID.
+ *
+ * @return void
  */
-function add_action_hooks_for_all_markup_hooks( $markup_array ) {
+function _hook_into_beans_markup( $markup_id ) {
+	add_action( "{$markup_id}_before_markup", function() use ( $markup_id ) {
+		beans_before_markup( $markup_id );
+	}, 1 );
 
-	foreach ( $markup_array as $markup ) {
-		add_action( "{$markup}_before_markup", function () use ( $markup ) {
-			beans_before_markup( $markup );
-		}, 1 );
-		add_action( "{$markup}_prepend_markup", function () use ( $markup ) {
-			beans_prepend_markup( $markup );
-		}, 1 );
-		add_action( "{$markup}_append_markup", function () use ( $markup ) {
-			beans_append_markup( $markup );
-		}, 1 );
-		add_action( "{$markup}_after_markup", function () use ( $markup ) {
-			beans_after_markup( $markup );
-		}, 1 );
-	}
+	add_action( "{$markup_id}_prepend_markup", function() use ( $markup_id ) {
+		beans_prepend_markup( $markup_id );
+	}, 1 );
+
+	add_action( "{$markup_id}_append_markup", function() use ( $markup_id ) {
+		beans_append_markup( $markup_id );
+	}, 1 );
+
+	add_action( "{$markup_id}_after_markup", function() use ( $markup_id ) {
+		beans_after_markup( $markup_id );
+	}, 1 );
 }
 
 /**
