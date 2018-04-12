@@ -20,7 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Hello, Hello, Hello, what\'s going on here then?' );
 }
 
-define( 'BVHG_BEANS_FLAVOURS', array( 'beans', 'tm-beans' ) );
 define( 'BVHG_BEANS_PLUGIN_URL', plugins_url( null, __FILE__ ) );
 
 register_activation_hook( __FILE__, 'bvhg_environment_check' );
@@ -36,7 +35,7 @@ add_action( 'switch_theme', 'bvhg_environment_check' );
  */
 function bvhg_environment_check() {
 
-	$is_beans          = in_array( wp_get_theme()->Template, BVHG_BEANS_FLAVOURS );
+	$is_beans          = in_array( wp_get_theme()->Template, array( 'beans', 'tm-beans' ) );
 	$deactivate_plugin = deactivate_plugins( plugin_basename( __FILE__ ) );
 
 	if ( ! $is_beans && current_filter() != 'switch_theme' ) {
