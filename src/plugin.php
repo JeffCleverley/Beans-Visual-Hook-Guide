@@ -33,7 +33,7 @@ function hook_into_beans() {
 
 	$markup_ids = get_transient( 'beans_html_markup_transient' );
 
-	if ( empty( $markup_ids ) || 'show' != isset( $_GET['bvhg_enable'] ) ) {
+	if ( empty( $markup_ids ) || ! is_set_to_show_bvhg() ) {
 		return;
 	}
 
@@ -41,10 +41,8 @@ function hook_into_beans() {
 
 	process_individual_markup_hooks( $markup_ids );
 
-	if ( 'show' != isset( $_GET['bvhg_enable_every_html_hook'] ) ) {
-		Asset\enqueue_css_script_with_markup_array_for_chosen_hooks_only();
-
-		return;
+	if ( ! is_set_to_show_every_html_hook() ) {
+		return Asset\enqueue_css_script_with_markup_array_for_chosen_hooks_only();
 	}
 
 	add_action_hooks_for_all_markup_hooks( $markup_ids );
@@ -84,4 +82,44 @@ function remove_square_brackets( $string ) {
 	$string = str_replace( '[', '', $string );
 
 	return str_replace( ']', '', $string );
+}
+
+/**
+ * Checks if the admin bar has been set to display the Beans Visual Hook Guide.
+ *
+ * @since 1.0.1
+ *
+ * @return bool
+ */
+function is_set_to_show_bvhg() {
+	return is_query_arg_set_show('bvhg_enable');
+}
+
+/**
+ * Checks if the admin bar has been set to display every HTML hook.
+ *
+ * @since 1.0.1
+ *
+ * @return bool
+ */
+function is_set_to_show_every_html_hook() {
+	return is_query_arg_set_show('bvhg_enable_every_html_hook');
+}
+
+/**
+ * Checks if the given query argument exists and if yes, is set to "show."
+ *
+ * @since 1.0.1
+ *
+ * @param string $query_arg Given query arg.
+ *
+ * @return bool
+ */
+function is_query_arg_set_show( $query_arg ) {
+
+	if ( ! isset( $_GET[ $query_arg ] ) ) {
+		return false;
+	}
+
+	return 'show' === $_GET[ $query_arg ];
 }

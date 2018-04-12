@@ -24,7 +24,7 @@ function add_action_hooks_for_individually_chosen_markup_hooks( $markup, $markup
 
 	global $markup_array_for_individual_css_changes;
 
-	if ( 'show' == isset( $_GET[ $markup_stripped_of_square_brackets ] ) ) {
+	if ( is_query_arg_set_show( $markup_stripped_of_square_brackets ) ) {
 
 		$markup_array_for_individual_css_changes[] = $markup;
 

@@ -1,17 +1,18 @@
 <?php
 /**
-* Admin Bar Handler.
-*
-* @package     LearningCurve\BeansVisualHookGuide\Admin
-* @since       1.0.1
-* @author      Jeff Cleverley
-* @link        https://learningcurve.xyz
-* @license     GNU-2.0+
-*/
+ * Admin Bar Handler.
+ *
+ * @package     LearningCurve\BeansVisualHookGuide\Admin
+ * @since       1.0.1
+ * @author      Jeff Cleverley
+ * @link        https://learningcurve.xyz
+ * @license     GNU-2.0+
+ */
 
 namespace LearningCurve\BeansVisualHookGuide\Admin;
 
 use function LearningCurve\BeansVisualHookGuide\remove_square_brackets;
+use function LearningCurve\BeansVisualHookGuide\is_set_to_show_bvhg;
 
 add_action( 'admin_bar_menu', __NAMESPACE__ . '\toolbar_top_level_links', 100 );
 /**
@@ -50,11 +51,8 @@ function toolbar_top_level_links() {
 		return;
 	}
 
-	if ( 'show' != isset( $_GET['bvhg_enable'] ) ) {
-		add_toolbar_top_link( $toolbar_top_link_args['enable_visual_hook_guide'] );
-	} elseif ( 'show' == isset( $_GET['bvhg_enable'] ) ) {
-		add_toolbar_top_link( $toolbar_top_link_args['add_visual_hook_guide'] );
-	}
+	$key = is_set_to_show_bvhg() ? 'add_visual_hook_guide' : 'enable_visual_hook_guide';
+	add_toolbar_top_link( $toolbar_top_link_args[ $key ] );
 }
 
 /**
@@ -99,7 +97,7 @@ function toolbar_second_level_link_prep() {
 	$main_query_args = array(
 		'bvhg_html_hooks',
 		'bvhg_enable',
-		'bvhg_enable_every_html_hook'
+		'bvhg_enable_every_html_hook',
 	);
 
 	global $markup_array_query_args_stripped;
@@ -143,7 +141,7 @@ function toolbar_second_level_link_arg_generation( $query_args_to_clear ) {
 			'id'    => 'bvhg_html_clear_disable',
 			'title' => __( 'Disable Beans HTML API Visual Hook Guide', 'beans-visual-hook-guide' ),
 			'href'  => esc_url( remove_query_arg( $query_args_to_clear ) ),
-		)
+		),
 	);
 
 	foreach ( $toolbar_drop_down_links_args as $toolbar_drop_down_links_arg ) {
@@ -192,8 +190,8 @@ function toolbar_generate_second_level_links( $toolbar_drop_down_links_arg ) {
  * Function to add toolbar nodes for all possible markup hooks that can be chosen
  *
  * @param $markup                                       array   array of all data-markup-id values
- * @param $markup_stripped_of_square_brackets           array   array of all data-markup-id values stripped of square brackets
- *                                                      to be used as query args
+ * @param $markup_stripped_of_square_brackets           array   array of all data-markup-id values stripped of square
+ *                                                      brackets to be used as query args
  */
 function add_toolbar_nodes_for_individual_markup_hooks( $markup, $markup_stripped_of_square_brackets ) {
 

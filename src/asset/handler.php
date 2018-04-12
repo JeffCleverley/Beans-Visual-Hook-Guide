@@ -11,6 +11,8 @@
 
 namespace LearningCurve\BeansVisualHookGuide\Asset;
 
+use function LearningCurve\BeansVisualHookGuide\is_set_to_show_bvhg;
+
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\script_to_scrape_markup_on_page_Load', 1 );
 /**
  * Enqueue Script on page load that:
@@ -52,9 +54,11 @@ function enqueue_css_if_guide_enabled() {
 		return;
 	};
 
-	if ( 'show' == isset( $_GET['bvhg_enable'] ) ) {
-		wp_enqueue_style( 'bvhg_styles', BVHG_BEANS_PLUGIN_URL . '/css/bvhg_styles.css' );
+	if ( ! is_set_to_show_bvhg() ) {
+		return;
 	}
+
+	wp_enqueue_style( 'bvhg_styles', BVHG_BEANS_PLUGIN_URL . '/css/bvhg_styles.css' );
 }
 
 /**
