@@ -17,7 +17,7 @@
  * Author:          Jeff Cleverley
  * Author URI:      https://learningcurve.xyz
  * License URI:     https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:     beans-visual-hook-guid
+ * Text Domain:     beans-visual-hook-guide
  * Requires WP:     4.8
  * Requires PHP:    5.6
  */
@@ -40,28 +40,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'BVHG_BEANS_PLUGIN_URL', plugins_url( null, __FILE__ ) );
 
-register_activation_hook( __FILE__, __NAMESPACE__ . '\environment_check' );
-add_action( 'switch_theme', __NAMESPACE__ . '\environment_check' );
+register_activation_hook( __FILE__, __NAMESPACE__ . '\deactivate_when_beans_not_activated_theme' );
+add_action( 'switch_theme', __NAMESPACE__ . '\deactivate_when_beans_not_activated_theme' );
 /**
- * Check active theme is Beans:
- * 1. Before Activation
- * 2. After Switching Themes
+ * If Beans is not the activated theme, deactivate this plugin and pop a die message when not switching themes.
  *
- * If not:
- * 1. Don't allow activation and throw a die message
- * 2. Disable plugin
+ * @since 1.0.0
+ *
+ * @return void
  */
-function environment_check() {
+function deactivate_when_beans_not_activated_theme() {
+    // If Beans is the active theme, bail out.
+    $theme = wp_get_theme();
+	if ( in_array( $theme->Template, array( 'beans', 'tm-beans' ) ) ) {
+	    return;
+    }
 
-	$is_beans          = in_array( wp_get_theme()->Template, array( 'beans', 'tm-beans' ) );
-	$deactivate_plugin = deactivate_plugins( plugin_basename( __FILE__ ) );
+	deactivate_plugins( plugin_basename( __FILE__ ) );
 
-	if ( ! $is_beans && current_filter() != 'switch_theme' ) {
-		$deactivate_plugin;
-		wp_die( 'Sorry, you can\'t activate unless you have installed Beans</a>' );
-	} elseif ( ! $is_beans ) {
-		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		$deactivate_plugin;
+	if ( current_filter() !== 'switch_theme' ) {
+		wp_die( __( 'Sorry, you can\'t activate this plugin unless the <a href="https://www.getbeans.io" target="_blank">Beans</a> framework is installed and a child theme is activated.', 'beans-visual-hook-guide' ) );
 	}
 }
 
