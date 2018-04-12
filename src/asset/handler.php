@@ -80,68 +80,14 @@ function enqueue_stylesheet() {
 }
 
 /**
- * Enqueue the "CSS-on-the-fly" script for chosen hooks.
+ * Get the Singleton instance of Css_On_The_Fly.
  *
- * @since 1.0.0
+ * @since 1.0.1
  *
- * @global $markup_array_for_individual_css_changes
- *
- * @return void
+ * @return Css_On_The_Fly
  */
-function enqueue_css_on_the_fly_for_chosen_hooks_only() {
+function css_on_the_fly() {
+	require_once __DIR__ . '/class-css-on-the-fly.php';
 
-	global $markup_array_for_individual_css_changes;
-
-	add_action( 'wp_enqueue_scripts', function () use ( $markup_array_for_individual_css_changes ) {
-		_enqueue_css_on_the_fly_script( $markup_array_for_individual_css_changes );
-	}, 1, 999 );
-}
-/**
- * Enqueue the "CSS-on-the-fly" script for all of the markup IDs.
- *
- * @since 1.0.0
- *
- * @param array $markup_ids Array of data-markup-id values.
- *
- * @return void
- */
-function enqueue_css_on_the_fly_for_all( $markup_ids ) {
-	add_action( 'wp_enqueue_scripts', function () use ( $markup_ids ) {
-		_enqueue_css_on_the_fly_script( $markup_ids );
-	}, 1, 999 );
-}
-
-/**
- * Enqueue script to make CSS changes on fly.
- *
- * 1. Add orange border around selected elements.
- * 2. Change wp_admin toolbar menu item to yellow for elements that are currently selected to be displayed.
- *
- * @since  1.0.0
- * @ignore
- * @access private
- *
- * @param array $markup_ids Array of data-markup-id values.
- *
- * @return void
- */
-function _enqueue_css_on_the_fly_script( $markup_ids ) {
-
-	if ( empty( $markup_ids ) ) {
-		return;
-	}
-
-	wp_enqueue_script(
-		'element-id-css-changes',
-		_get_plugin_url() . '/assets/js/element_id_css.js',
-		array( 'jquery' ),
-		_get_plugin_version(),
-		true
-	);
-
-	wp_localize_script(
-		'element-id-css-changes',
-		'element',
-		array( 'elementClass' => $markup_ids )
-	);
+	return Css_On_The_Fly::getInstance();
 }

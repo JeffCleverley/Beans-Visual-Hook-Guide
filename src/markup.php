@@ -11,6 +11,8 @@
 
 namespace LearningCurve\BeansVisualHookGuide;
 
+use function LearningCurve\BeansVisualHookGuide\Asset\css_on_the_fly;
+
 /**
  * Add Beans HTML API actions to display markup on all chosen action hooks.
  *
@@ -29,9 +31,7 @@ function add_action_hooks_for_individually_chosen_markup_hooks( $markup_id, $raw
 		return;
 	}
 
-	global $markup_array_for_individual_css_changes;
-
-	$markup_array_for_individual_css_changes[] = $markup_id;
+	css_on_the_fly()->add_markup_id( $markup_id );
 
 	_hook_into_beans_markup( $markup_id );
 }
