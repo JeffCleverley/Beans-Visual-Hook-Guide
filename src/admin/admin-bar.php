@@ -11,6 +11,8 @@
 
 namespace LearningCurve\BeansVisualHookGuide\Admin;
 
+use function LearningCurve\BeansVisualHookGuide\remove_square_brackets;
+
 add_action( 'admin_bar_menu', __NAMESPACE__ . '\toolbar_top_level_links', 100 );
 /**
  * Add the Admin Toolbar Top Level Link conditionally:
@@ -162,8 +164,7 @@ function strip_markup_query_args_of_square_brackets( $markup_array_query_args ) 
 	global $markup_array_query_args_stripped;
 
 	foreach ( $markup_array_query_args as $markup_array_query_arg ) {
-		$markup_array_query_arg_first_strip = str_replace( '[', '', $markup_array_query_arg );
-		$markup_array_query_args_stripped[] = str_replace( ']', '', $markup_array_query_arg_first_strip );
+		$markup_array_query_args_stripped[] = remove_square_brackets( $markup_array_query_arg );
 	}
 }
 

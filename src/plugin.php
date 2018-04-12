@@ -60,9 +60,23 @@ function beans_hooker() {
 function add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $markup_array ) {
 
 	foreach ( $markup_array as $markup ) {
-		$markup_stripped_of_opening_square_bracket = str_replace( '[', '', $markup );
-		$markup_stripped_of_all_square_brackets    = str_replace( ']', '', $markup_stripped_of_opening_square_bracket );
-		Admin\add_toolbar_nodes_for_individual_markup_hooks( $markup, $markup_stripped_of_all_square_brackets );
-		add_action_hooks_for_individually_chosen_markup_hooks( $markup, $markup_stripped_of_all_square_brackets );
+		$clean_markup = remove_square_brackets( $markup );
+		Admin\add_toolbar_nodes_for_individual_markup_hooks( $markup, $clean_markup );
+		add_action_hooks_for_individually_chosen_markup_hooks( $markup, $clean_markup );
 	}
+}
+
+/**
+ * Remove the opening and closing square brackets from the given string.
+ *
+ * @since 1.0.1
+ *
+ * @param string $string Given string to clean.
+ *
+ * @return string
+ */
+function remove_square_brackets( $string ) {
+	$string = str_replace( '[', '', $string );
+
+	return str_replace( ']', '', $string );
 }
