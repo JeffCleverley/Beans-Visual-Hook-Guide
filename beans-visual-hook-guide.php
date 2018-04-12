@@ -32,14 +32,16 @@
  * http://christophercochran.me
  */
 
+namespace LearningCurve\BeansVisualHookGuide;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Hello, Hello, Hello, what\'s going on here then?' );
 }
 
 define( 'BVHG_BEANS_PLUGIN_URL', plugins_url( null, __FILE__ ) );
 
-register_activation_hook( __FILE__, 'bvhg_environment_check' );
-add_action( 'switch_theme', 'bvhg_environment_check' );
+register_activation_hook( __FILE__, __NAMESPACE__ . '\bvhg_environment_check' );
+add_action( 'switch_theme', __NAMESPACE__ . '\bvhg_environment_check' );
 /**
  * Check active theme is Beans:
  * 1. Before Activation
@@ -63,7 +65,7 @@ function bvhg_environment_check() {
 	}
 }
 
-add_action( 'admin_notices', 'bvhg_active_notice' );
+add_action( 'admin_notices', __NAMESPACE__ . '\bvhg_active_notice' );
 /**
  * Notices to display when plugin active:
  * Notice 1 - Displays when Development Mode isn't active, but plugin is.
@@ -87,7 +89,7 @@ function bvhg_active_notice() {
 	}
 }
 
-add_action( 'admin_bar_menu', 'bvhg_toolbar_top_level_links', 100 );
+add_action( 'admin_bar_menu', __NAMESPACE__ . '\bvhg_toolbar_top_level_links', 100 );
 /**
  * Add the Admin Toolbar Top Level Link conditionally:
  * 1. Execute function to add Link to Beans Theme Settings if Development mode is inactive.
@@ -154,7 +156,7 @@ function bvhg_add_toolbar_top_link( $menu_args ) {
 	);
 }
 
-add_action( 'admin_bar_menu', 'bvhg_toolbar_second_level_link_prep', 101 );
+add_action( 'admin_bar_menu', __NAMESPACE__ . '\bvhg_toolbar_second_level_link_prep', 101 );
 /**
  * Add the Admin Toolbar 2nd Level Links - to appear in drop-down:
  * 1. Execute function to show all possible HTML Hooks in a Submenu to allow them to be selected individually.
@@ -263,7 +265,7 @@ function bvhg_toolbar_generate_second_level_links( $toolbar_drop_down_links_arg 
 	);
 }
 
-add_action( 'wp_enqueue_scripts', 'bvhg_script_to_scrape_markup_on_page_Load', 1 );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\bvhg_script_to_scrape_markup_on_page_Load', 1 );
 /**
  * Enqueue Script on page load that:
  * 1. Scrapes all data-markup-id values into an array.
@@ -294,7 +296,7 @@ function bvhg_script_to_scrape_markup_on_page_Load() {
 	);
 }
 
-add_action( 'wp_enqueue_scripts', 'bvhg_enqueue_css_if_guide_enabled', 1 );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\bvhg_enqueue_css_if_guide_enabled', 1 );
 /**
  * Enqueue CSS only if BeansVisual Hook Guide is enabled
  */
@@ -309,7 +311,7 @@ function bvhg_enqueue_css_if_guide_enabled() {
 	}
 }
 
-add_action( 'wp_ajax_bvhg_pass_markup_id_array', 'bvhg_pass_markup_id_array_callback' );
+add_action( 'wp_ajax_bvhg_pass_markup_id_array', __NAMESPACE__ . '\bvhg_pass_markup_id_array_callback' );
 /**
  * AJAX call back
  *
@@ -344,7 +346,7 @@ function bvhg_pass_markup_id_array_callback() {
 }
 
 
-add_action( 'beans_head', 'bvhg_beans_hooker' );
+add_action( 'beans_head', __NAMESPACE__ . '\bvhg_beans_hooker' );
 /**
  * Hook in Beans Visual Hook Guide Functionality
  * 1. Execute function that adds action hooks and toolbar nodes for markup hooks that have been selected individually
@@ -578,9 +580,3 @@ function bvhg_beans_after_markup( $markup ) {
 	echo '<div class="bvhg-hook-after-markup-cue" data-bvhg-hook-cue="' . $markup . '_after_markup">';
 	echo $markup . '_after_markup</div>';
 }
-
-
-
-
-
-
