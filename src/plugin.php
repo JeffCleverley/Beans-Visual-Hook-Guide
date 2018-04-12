@@ -42,11 +42,11 @@ function hook_into_beans() {
 	process_individual_markup_hooks( $markup_ids );
 
 	if ( ! is_set_to_show_every_html_hook() ) {
-		return Asset\enqueue_css_script_with_markup_array_for_chosen_hooks_only();
+		return Asset\enqueue_css_on_the_fly_for_chosen_hooks_only();
 	}
 
 	add_action_hooks_for_all_markup_hooks( $markup_ids );
-	Asset\enqueue_css_script_with_markup_array_for_all_markup_hooks( $markup_ids );
+	Asset\enqueue_css_on_the_fly_for_all( $markup_ids );
 }
 
 /**

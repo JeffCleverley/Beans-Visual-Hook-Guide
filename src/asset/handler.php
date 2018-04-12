@@ -15,18 +15,25 @@ use function LearningCurve\BeansVisualHookGuide\_get_plugin_url;
 use function LearningCurve\BeansVisualHookGuide\_get_plugin_version;
 use function LearningCurve\BeansVisualHookGuide\is_set_to_show_bvhg;
 
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\script_to_scrape_markup_on_page_Load', 1 );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_markup_id_scraper_script', 1 );
 /**
- * Enqueue Script on page load that:
- * 1. Scrapes all data-markup-id values into an array.
- * 2. Adds all data-markup-id values as an additional class to their elements - to be used later to change css on the fly.
- * 3. Localizes script - sends values to be used by Ajax call used to receive the POSTed markup array.
+ * Enqueue and localize the markup IDs scraper script.
+ *
+ * This script does the following:
+ *      1.  Scrapes all data-markup-id values into an array.
+ *      2.  Adds all data-markup-id values as an additional class to their elements - to be used later to change
+ *          css on the fly.
+ *      3. Sends values to be used by Ajax call used to receive the POSTed markup array.
+ *
+ * @since 1.0.0
+ *
+ * @return void
  */
-function script_to_scrape_markup_on_page_Load() {
+function enqueue_markup_id_scraper_script() {
 
 	if ( is_customize_preview() ) {
 		return;
-	};
+	}
 
 	wp_enqueue_script(
 		'scrape-the-markup-ids',
@@ -46,13 +53,22 @@ function script_to_scrape_markup_on_page_Load() {
 	);
 }
 
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_css_if_guide_enabled', 1 );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_stylesheet', 1 );
 /**
- * Enqueue CSS only if BeansVisual Hook Guide is enabled
+ * Enqueue the stylesheet when not in Customizer preview, Beans is in Development Mode, and
+ * the Beans Visual Hook Guide is set to show.
+ *
+ * @since 1.0.0
+ *
+ * @return void
  */
-function enqueue_css_if_guide_enabled() {
+function enqueue_stylesheet() {
 
-	if ( ! _beans_is_html_dev_mode() || is_customize_preview() ) {
+	if ( is_customize_preview() ) {
+		return;
+	}
+
+	if ( ! _beans_is_html_dev_mode() ) {
 		return;
 	};
 
@@ -64,39 +80,54 @@ function enqueue_css_if_guide_enabled() {
 }
 
 /**
- * Function to enqueue css script with markup for chosen hooks only.
+ * Enqueue the "CSS-on-the-fly" script for chosen hooks.
+ *
+ * @since 1.0.0
+ *
+ * @global $markup_array_for_individual_css_changes
+ *
+ * @return void
  */
-function enqueue_css_script_with_markup_array_for_chosen_hooks_only() {
+function enqueue_css_on_the_fly_for_chosen_hooks_only() {
 
 	global $markup_array_for_individual_css_changes;
 
 	add_action( 'wp_enqueue_scripts', function () use ( $markup_array_for_individual_css_changes ) {
-		enqueue_element_id_script( $markup_array_for_individual_css_changes );
+		_enqueue_css_on_the_fly_script( $markup_array_for_individual_css_changes );
 	}, 1, 999 );
 }
 /**
- * Function to add script to enqueue scripts hook, and provide array for localization.
+ * Enqueue the "CSS-on-the-fly" script for all of the markup IDs.
  *
- * @param $markup_array     array   Array of all data-markup-id values - used to add actions to all possible hooks.
+ * @since 1.0.0
+ *
+ * @param array $markup_ids Array of data-markup-id values.
+ *
+ * @return void
  */
-function enqueue_css_script_with_markup_array_for_all_markup_hooks( $markup_array ) {
-	add_action( 'wp_enqueue_scripts', function () use ( $markup_array ) {
-		enqueue_element_id_script( $markup_array );
+function enqueue_css_on_the_fly_for_all( $markup_ids ) {
+	add_action( 'wp_enqueue_scripts', function () use ( $markup_ids ) {
+		_enqueue_css_on_the_fly_script( $markup_ids );
 	}, 1, 999 );
 }
 
 /**
- * Enqueue script to make css changes on fly
+ * Enqueue script to make CSS changes on fly.
  *
  * 1. Add orange border around selected elements.
  * 2. Change wp_admin toolbar menu item to yellow for elements that are currently selected to be displayed.
  *
- * @param $markup_array     array   depending on query_arg displaying, will either be an array of just the chosen elements,
- *                          or every single element with a data-markup-id value.
+ * @since  1.0.0
+ * @ignore
+ * @access private
+ *
+ * @param array $markup_ids Array of data-markup-id values.
+ *
+ * @return void
  */
-function enqueue_element_id_script( $markup_array ) {
+function _enqueue_css_on_the_fly_script( $markup_ids ) {
 
-	if ( ! $markup_array ) {
+	if ( empty( $markup_ids ) ) {
 		return;
 	}
 
@@ -111,6 +142,6 @@ function enqueue_element_id_script( $markup_array ) {
 	wp_localize_script(
 		'element-id-css-changes',
 		'element',
-		array( 'elementClass' => $markup_array )
+		array( 'elementClass' => $markup_ids )
 	);
 }
