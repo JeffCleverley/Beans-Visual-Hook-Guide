@@ -11,32 +11,38 @@
 
 namespace LearningCurve\BeansVisualHookGuide;
 
-add_action( 'beans_head', __NAMESPACE__ . '\beans_hooker' );
+add_action( 'beans_head', __NAMESPACE__ . '\hook_into_beans' );
 /**
- * Hook in Beans Visual Hook Guide Functionality
- * 1. Execute function that adds action hooks and toolbar nodes for markup hooks that have been selected individually
- * 2. Check if show all hooks has been chosen, if so, enqueue css script with markup for chosen hooks only, then return.
- * 3. Execute function to add all action hooks for all possible markup
- * 4. Enqueue css for all possible markup hooks.
+ * Hook into Beans to enable the Beans Visual Hook Guide functionality.  This callback does the following:
+ *      1. Execute function that adds action hooks and toolbar nodes for markup hooks that have been selected
+ *      individually
+ *      2. Check if show all hooks has been chosen, if so, enqueue css script with markup for chosen hooks only, then
+ *      return.
+ *      3. Execute function to add all action hooks for all possible markup
+ *      4. Enqueue css for all possible markup hooks.
+ *
+ * @since 1.0.0
+ *
+ * @return void
  */
-function beans_hooker() {
+function hook_into_beans() {
 
 	if ( ! _beans_is_html_dev_mode() || is_customize_preview() ) {
 		return;
 	}
 
-	$markup_array = get_transient( 'beans_html_markup_transient' );
+	$markup_ids = get_transient( 'beans_html_markup_transient' );
 
-	if ( ! $markup_array || 'show' != isset( $_GET['bvhg_enable'] ) ) {
+	if ( ! $markup_ids || 'show' != isset( $_GET['bvhg_enable'] ) ) {
 		return;
 	}
 
 	$escaped_markup_array = array();
-	foreach ( $markup_array as $markup_string ) {
+	foreach ( $markup_ids as $markup_string ) {
 		$escaped_markup_array[] = esc_attr( $markup_string );
 	}
 
-	add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $escaped_markup_array );
+	process_individual_markup_hooks( $escaped_markup_array );
 
 	if ( 'show' != isset( $_GET['bvhg_enable_every_html_hook'] ) ) {
 		Asset\enqueue_css_script_with_markup_array_for_chosen_hooks_only();
@@ -50,16 +56,19 @@ function beans_hooker() {
 }
 
 /**
- * Loop through the markup array and:
- * 1. Strip all square brackets so the array values can be used as query args.
- * 2. Execute function to add toolbar nodes for all possible markup hooks that can be chosen.
- * 3. Execute function that adds actions to display markup on all chosen action hooks.
+ * Process the scraped markup IDs to add each to the admin bar and hook into Beans for rendering
+ * the visual guide.
  *
- * @param $markup_array     array   Array of all data-markup-id values scraped from the site and stored as transient.
+ * @since 1.0.0
+ * @since 1.0.1 Renamed the function.
+ *
+ * @param array $markup_ids Array of scraped data-markup-id values.
+ *
+ * @return void
  */
-function add_action_hooks_toolbar_nodes_for_individual_markup_hooks( $markup_array ) {
+function process_individual_markup_hooks( array $markup_ids ) {
 
-	foreach ( $markup_array as $markup ) {
+	foreach ( $markup_ids as $markup ) {
 		$clean_markup = remove_square_brackets( $markup );
 		Admin\add_toolbar_nodes_for_individual_markup_hooks( $markup, $clean_markup );
 		add_action_hooks_for_individually_chosen_markup_hooks( $markup, $clean_markup );
