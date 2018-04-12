@@ -33,16 +33,13 @@ function hook_into_beans() {
 
 	$markup_ids = get_transient( 'beans_html_markup_transient' );
 
-	if ( ! $markup_ids || 'show' != isset( $_GET['bvhg_enable'] ) ) {
+	if ( empty( $markup_ids ) || 'show' != isset( $_GET['bvhg_enable'] ) ) {
 		return;
 	}
 
-	$escaped_markup_array = array();
-	foreach ( $markup_ids as $markup_string ) {
-		$escaped_markup_array[] = esc_attr( $markup_string );
-	}
+	$markup_ids = array_map( 'esc_attr', $markup_ids );
 
-	process_individual_markup_hooks( $escaped_markup_array );
+	process_individual_markup_hooks( $markup_ids );
 
 	if ( 'show' != isset( $_GET['bvhg_enable_every_html_hook'] ) ) {
 		Asset\enqueue_css_script_with_markup_array_for_chosen_hooks_only();
@@ -50,9 +47,8 @@ function hook_into_beans() {
 		return;
 	}
 
-	add_action_hooks_for_all_markup_hooks( $escaped_markup_array );
-	Asset\enqueue_css_script_with_markup_array_for_all_markup_hooks( $escaped_markup_array );
-
+	add_action_hooks_for_all_markup_hooks( $markup_ids );
+	Asset\enqueue_css_script_with_markup_array_for_all_markup_hooks( $markup_ids );
 }
 
 /**
