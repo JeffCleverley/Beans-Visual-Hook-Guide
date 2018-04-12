@@ -1,0 +1,39 @@
+{
+  "name": "learningcurve/beans-visual-hook-guide",
+  "description": "Visual Hook Guide for the Beans HTML API.",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0+",
+  "homepage": "https://github.com/JeffCleverley/Beans-Visual-Hook-Guide",
+  "support": {
+    "issues": "https://github.com/JeffCleverley/Beans-Visual-Hook-Guide/issues",
+    "source": "https://github.com/JeffCleverley/Beans-Visual-Hook-Guide"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "exclude-from-classmap": [
+      "/tests/"
+    ]
+  },
+  "require": {
+    "php": "^5.6|^7",
+    "composer/installers": "^1.4",
+    "roave/security-advisories": "dev-master"
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
+    "sirbrillig/phpcs-variable-analysis": "^2.0",
+    "squizlabs/php_codesniffer": "^3.2",
+    "wimg/php-compatibility": "^8.0",
+    "wp-coding-standards/wpcs": "^0.14.1"
+  },
+  "config": {
+    "sort-order": true
+  },
+  "scripts": {
+    "install-codestandards": [
+      "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
+    ],
+    "run-phpcs": "\"vendor/bin/phpcs\""
+  }
+}
