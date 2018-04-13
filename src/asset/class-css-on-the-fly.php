@@ -91,7 +91,7 @@ class Css_On_The_Fly {
 	 */
 	public function enqueue_for_selected_ids() {
 		$this->ids_to_enqueue = $this->selected_ids;
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_callback' ), 1, 9999 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_callback' ), 9999 );
 	}
 
 	/**
@@ -123,13 +123,12 @@ class Css_On_The_Fly {
 	 */
 	private function enqueue_script() {
 		wp_enqueue_script(
-			'element-id-css-changes',
-			_get_plugin_url() . '/assets/js/element_id_css.js',
-			array( 'jquery' ),
-			_get_asset_version( '/assets/js/element_id_css.js' ),
+			'css_on_the_fly_script',
+			_get_plugin_url() . '/assets/js/css-on-the-fly.js',
+			array(),
+			_get_asset_version( '/assets/js/css-on-the-fly.js' ),
 			true
 		);
-
 	}
 
 	/**
@@ -141,9 +140,9 @@ class Css_On_The_Fly {
 	 */
 	private function localize_script() {
 		wp_localize_script(
-			'element-id-css-changes',
-			'element',
-			array( 'elementClass' => $this->ids_to_enqueue )
+			'css_on_the_fly_script',
+			'cssOnTheFlyParams',
+			array( 'classNames' => $this->ids_to_enqueue )
 		);
 	}
 
