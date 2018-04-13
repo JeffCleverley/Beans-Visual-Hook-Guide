@@ -3,7 +3,7 @@
  * Asset Handler.
  *
  * @package     LearningCurve\BeansVisualHookGuide\Asset
- * @since       1.0.1
+ * @since       1.1.0
  * @author      Jeff Cleverley
  * @link        https://learningcurve.xyz
  * @license     GNU-2.0+
@@ -34,14 +34,6 @@ function enqueue_markup_id_scraper_script() {
 	if ( is_customize_preview() ) {
 		return;
 	}
-
-//	wp_enqueue_script(
-//		'markup_id_scraper_script',
-//		_get_plugin_url() . '/assets/js/scrape_markup_ids.js',
-//		array( 'jquery' ),
-//		_get_asset_version( '/assets/js/scrape_markup_ids.js' ),
-//		true
-//	);
 
 	wp_enqueue_script(
 		'markup_id_scraper_script',
@@ -95,7 +87,7 @@ function enqueue_stylesheet() {
 /**
  * Get the Singleton instance of Css_On_The_Fly.
  *
- * @since 1.0.1
+ * @since 1.1.0
  *
  * @return Css_On_The_Fly
  */
@@ -108,7 +100,7 @@ function css_on_the_fly() {
 /**
  * Get's the asset file's version number by using it's modification timestamp.
  *
- * @since 1.0.1
+ * @since 1.1.0
  *
  * @param string $relative_path Relative path to the asset file.
  *

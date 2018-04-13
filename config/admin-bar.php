@@ -3,7 +3,7 @@
  * Runtime configuration parameters for the Admin Bar.
  *
  * @package     LearningCurve\BeansVisualHookGuide\Admin
- * @since       1.0.1
+ * @since       1.1.0
  * @author      Jeff Cleverley
  * @link        https://learningcurve.xyz
  * @license     GNU-2.0+

@@ -3,7 +3,7 @@
  * "CSS on the Fly" Handler.
  *
  * @package     LearningCurve\BeansVisualHookGuide\Asset
- * @since       1.0.1
+ * @since       1.1.0
  * @author      Jeff Cleverley
  * @link        https://learningcurve.xyz
  * @license     GNU-2.0+
@@ -42,7 +42,7 @@ class Css_On_The_Fly {
 	/**
 	 * Create or get the Singleton.
 	 *
-	 * @since 1.0.1
+	 * @since 1.1.0
 	 *
 	 * @return static
 	 */
@@ -58,7 +58,7 @@ class Css_On_The_Fly {
 	/**
 	 * Adds the given markup ID to be enqueued.
 	 *
-	 * @since 1.0.1
+	 * @since 1.1.0
 	 *
 	 * @param string $markup_id Markup ID to store.
 	 *
@@ -71,7 +71,7 @@ class Css_On_The_Fly {
 	/**
 	 * Enqueue the given array of markup IDs.
 	 *
-	 * @since 1.0.1
+	 * @since 1.1.0
 	 *
 	 * @param array $markup_ids Array of markup IDs.
 	 *
@@ -85,7 +85,7 @@ class Css_On_The_Fly {
 	/**
 	 * Enqueue all of the previously selected markup IDs.
 	 *
-	 * @since 1.0.1
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -97,7 +97,7 @@ class Css_On_The_Fly {
 	/**
 	 * Callback to enqueue the script.
 	 *
-	 * @since 1.0.1
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -117,7 +117,7 @@ class Css_On_The_Fly {
 	 *      1. Adds an orange border around selected elements.
 	 *      2. Changes wp_admin toolbar menu item to yellow for elements that are currently selected to be displayed.
 	 *
-	 * @since  1.0.1
+	 * @since  1.1.0
 	 *
 	 * @return void
 	 */
@@ -134,7 +134,7 @@ class Css_On_The_Fly {
 	/**
 	 * Localizes the script.
 	 *
-	 * @since 1.0.1
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */

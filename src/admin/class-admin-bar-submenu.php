@@ -3,7 +3,7 @@
  * Admin Bar Handler.
  *
  * @package     LearningCurve\BeansVisualHookGuide\Admin
- * @since       1.0.1
+ * @since       1.1.0
  * @author      Jeff Cleverley
  * @link        https://learningcurve.xyz
  * @license     GNU-2.0+
@@ -17,8 +17,17 @@ namespace LearningCurve\BeansVisualHookGuide\Admin;
  */
 class Admin_Bar_Submenu {
 
+	/**
+	 * Array of clean arguments.
+	 *
+	 * @var array
+	 */
 	private $clean_args;
 
+	/**
+	 * Array of baseline query arguments.
+	 * @var array
+	 */
 	protected $query_args = array(
 		'bvhg_html_hooks',
 		'bvhg_enable',
@@ -28,7 +37,7 @@ class Admin_Bar_Submenu {
 	/**
 	 * Initializes by hooking into the "admin_bar_menu" event.
 	 *
-	 * @since 1.0.1
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -36,6 +45,13 @@ class Admin_Bar_Submenu {
 		add_action( 'admin_bar_menu', array( $this, 'add_submenu_callback' ), 101 );
 	}
 
+	/**
+	 * Handles adding the submenus.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return void
+	 */
 	public function add_submenu_callback() {
 		$query_args = $this->prep_query_args();
 
@@ -49,7 +65,7 @@ class Admin_Bar_Submenu {
 	}
 
 	/**
-	 * Prepare the query args.
+	 * Prepares the query args.
 	 *
 	 * @since 1.0.0
 	 *
@@ -71,9 +87,9 @@ class Admin_Bar_Submenu {
 	}
 
 	/**
-	 * Get the markup IDs from the transient.
+	 * Gets the markup IDs from the transient.
 	 *
-	 * @since 1.0.1
+	 * @since 1.1.0
 	 *
 	 * @return mixed
 	 */
@@ -84,7 +100,7 @@ class Admin_Bar_Submenu {
 	/**
 	 * Removes the square brackets from the given markup IDs.
 	 *
-	 * @since 1.0.1
+	 * @since 1.1.0
 	 *
 	 * @param array $markup_ids Array of markup IDs.
 	 *
@@ -97,7 +113,7 @@ class Admin_Bar_Submenu {
 	/**
 	 * Generate the submenu's arguments.
 	 *
-	 * @since 1.0.1
+	 * @since 1.1.0
 	 *
 	 * @param array $clear_disable_query_args Array of query args to be stripped for the
 	 *                                        "clear display" menu item's URL link.
@@ -130,9 +146,9 @@ class Admin_Bar_Submenu {
 	}
 
 	/**
-	 * Add each menu item to the submenu.
+	 * Adds each menu item to the submenu.
 	 *
-	 * @since 1.0.1
+	 * @since 1.1.0
 	 *
 	 * @param array $menu_args Array of the menu args.
 	 *

@@ -2,9 +2,9 @@
 /**
  * View file for displaying the markup.
  *
- * @package LearningCurve\BeansVisualHookGuide
+ * @package LearningCurve\BeansVisualHookGuide\Markup
  *
- * @since   1.0.1
+ * @since   1.1.0
  */
 
 ?>

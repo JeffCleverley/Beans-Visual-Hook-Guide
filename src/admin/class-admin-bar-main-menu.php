@@ -3,7 +3,7 @@
  * Admin Bar Main Menu Handler.
  *
  * @package     LearningCurve\BeansVisualHookGuide\Admin
- * @since       1.0.1
+ * @since       1.1.0
  * @author      Jeff Cleverley
  * @link        https://learningcurve.xyz
  * @license     GNU-2.0+
@@ -19,8 +19,18 @@ use function LearningCurve\BeansVisualHookGuide\is_set_to_show_bvhg;
  */
 class Admin_Bar_Main_Menu {
 
+	/**
+	 * Array of runtime parameters.
+	 *
+	 * @var array
+	 */
 	protected $config;
 
+	/**
+	 * Admin_Bar_Main_Menu constructor.
+	 *
+	 * @param array $config Array of parameters.
+	 */
 	public function __construct( array $config ) {
 		$this->config = $config;
 	}
@@ -28,7 +38,7 @@ class Admin_Bar_Main_Menu {
 	/**
 	 * Initializes by hooking into the "admin_bar_menu" event.
 	 *
-	 * @since 1.0.1
+	 * @since 1.1.0
 	 *
 	 * @return void
 	 */
@@ -36,6 +46,13 @@ class Admin_Bar_Main_Menu {
 		add_action( 'admin_bar_menu', array( $this, 'add_menu_callback' ), 100 );
 	}
 
+	/**
+	 * Handles adding the menu.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @return void
+	 */
 	public function add_menu_callback() {
 
 		if ( _beans_is_html_dev_mode() ) {
@@ -48,13 +65,13 @@ class Admin_Bar_Main_Menu {
 	}
 
 	/**
-	 *  Function to add Beans Visual Hook Guide Top level links
+	 * Add the main menu item.
 	 *
-	 * 1. Generate link to Beans Setting if Development mode is disabled
-	 * 2. Generate a link to enable Beans Visual Hook Guide
-	 * 3. Generate Top Level Menu for configuration drop-downs
+	 * @since 1.1.0
 	 *
-	 * @param $menu_args    array   values to generate the required link.
+	 * @param array $menu_args Array of menu arguments.
+	 *
+	 * @return void
 	 */
 	private function add_main_menu_item( $menu_args ) {
 		global $wp_admin_bar;

@@ -3,7 +3,7 @@
  * AJAX Handler.
  *
  * @package     LearningCurve\BeansVisualHookGuide\Asset
- * @since       1.0.1
+ * @since       1.1.0
  * @author      Jeff Cleverley
  * @link        https://learningcurve.xyz
  * @license     GNU-2.0+
@@ -19,9 +19,10 @@ add_action( 'wp_ajax_bvhg_pass_markup_id_array', __NAMESPACE__ . '\pass_markup_i
  * Check if transient exists, if so delete it, then save the received array as transient.
  *
  * Always die out of an AJAX call
+ *
+ * @since 1.0.0
  */
 function pass_markup_id_array_callback() {
-
 	check_ajax_referer( 'my-special-string', 'security' );
 
 	if ( ! isset( $_POST['markup'] ) ) {

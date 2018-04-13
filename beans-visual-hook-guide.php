@@ -3,7 +3,7 @@
  * Loads the Beans Visual Hook Guide plugin.
  *
  * @package    LearningCurve\BeansVisualHookGuide
- * @since      1.0.1
+ * @since      1.1.0
  * @author     Jeff Cleverley
  * @link       https://learningcurve.xyz
  * @license    GNU-2.0+
@@ -13,23 +13,25 @@
  * Plugin URI:      https://github.com/JeffCleverley/Beans-Visual-Hook-Guide
  * Description:     Find Beans Hooks (HTML API created action hooks only at the moment) quickly and easily by seeing
  * their actual locations inside your theme.
- * Version:         1.0.1
+ * Version:         1.1.0
  * Author:          Jeff Cleverley
  * Author URI:      https://learningcurve.xyz
  * License URI:     https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:     beans-visual-hook-guide
- * Requires WP:     4.8
+ * Requires WP:     4.6
  * Requires PHP:    5.6
  */
 
 /**
- * Thanks to:
+ * Special thanks to:
  *
  * This plugin was inspired by Christopher Cochran's Genesis Visual Hook Guide, one of my favourite plugins for
  * Genesis Development. I started with his plugin and went from there.... Thank you very much Christopher!
- * https://genesistutorials.com/visual-hook-guide/
- * https://github.com/christophercochran/Genesis-Visual-Hook-Guide
- * http://christophercochran.me
+ *
+ * Links to Christopher:
+ * - https://genesistutorials.com/visual-hook-guide/
+ * - https://github.com/christophercochran/Genesis-Visual-Hook-Guide
+ * - http://christophercochran.me
  */
 
 namespace LearningCurve\BeansVisualHookGuide;
@@ -54,7 +56,7 @@ function _get_plugin_directory() {
 /**
  * Gets this plugin's URL.
  *
- * @since 1.0.1
+ * @since 1.1.0
  * @ignore
  * @access private
  *
@@ -96,7 +98,7 @@ function deactivate_when_beans_not_activated_theme() {
 /**
  * Autoload the plugin's files.
  *
- * @since 1.0.1
+ * @since 1.1.0
  *
  * @return void
  */
@@ -118,7 +120,7 @@ function autoload_files() {
 /**
  * Launch the plugin.
  *
- * @since 1.0.0
+ * @since 1.1.0
  *
  * @return void
  */

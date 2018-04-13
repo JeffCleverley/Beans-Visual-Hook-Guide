@@ -3,7 +3,7 @@
  * Plugin Handler.
  *
  * @package     LearningCurve\BeansVisualHookGuide
- * @since       1.0.1
+ * @since       1.1.0
  * @author      Jeff Cleverley
  * @link        https://learningcurve.xyz
  * @license     GNU-2.0+
@@ -22,6 +22,7 @@ add_action( 'beans_head', __NAMESPACE__ . '\hook_into_beans' );
  *      4. Enqueue css for all possible markup hooks.
  *
  * @since 1.0.0
+ * @since 1.1.0 Renamed the function.
  *
  * @return void
  */
@@ -54,7 +55,7 @@ function hook_into_beans() {
  * the visual guide.
  *
  * @since 1.0.0
- * @since 1.0.1 Renamed the function.
+ * @since 1.1.0 Renamed the function.
  *
  * @param array $markup_ids Array of scraped data-markup-id values.
  *
@@ -72,7 +73,7 @@ function process_individual_markup_hooks( array $markup_ids ) {
 /**
  * Remove the opening and closing square brackets from the given string.
  *
- * @since 1.0.1
+ * @since 1.1.0
  *
  * @param string $string Given string to clean.
  *
@@ -87,7 +88,7 @@ function remove_square_brackets( $string ) {
 /**
  * Checks if the admin bar has been set to display the Beans Visual Hook Guide.
  *
- * @since 1.0.1
+ * @since 1.1.0
  *
  * @return bool
  */
@@ -98,7 +99,7 @@ function is_set_to_show_bvhg() {
 /**
  * Checks if the admin bar has been set to display every HTML hook.
  *
- * @since 1.0.1
+ * @since 1.1.0
  *
  * @return bool
  */
@@ -109,7 +110,7 @@ function is_set_to_show_every_html_hook() {
 /**
  * Checks if the given query argument exists and if yes, is set to "show."
  *
- * @since 1.0.1
+ * @since 1.1.0
  *
  * @param string $query_arg Given query arg.
  *

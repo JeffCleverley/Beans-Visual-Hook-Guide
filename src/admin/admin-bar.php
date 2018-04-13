@@ -3,7 +3,7 @@
  * Admin Bar Handler.
  *
  * @package     LearningCurve\BeansVisualHookGuide\Admin
- * @since       1.0.1
+ * @since       1.1.0
  * @author      Jeff Cleverley
  * @link        https://learningcurve.xyz
  * @license     GNU-2.0+
@@ -14,6 +14,13 @@ namespace LearningCurve\BeansVisualHookGuide\Admin;
 use function LearningCurve\BeansVisualHookGuide\_get_plugin_directory;
 
 add_action( 'init', __NAMESPACE__ . '\create_admin_bar_menus' );
+/**
+ * Create the menus for the Admin Bar.
+ *
+ * @since 1.1.0
+ *
+ * @return void
+ */
 function create_admin_bar_menus() {
 	$config = require_once _get_plugin_directory() . '/config/admin-bar.php';
 	require_once __DIR__ . '/class-admin-bar-main-menu.php';

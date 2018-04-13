@@ -3,7 +3,7 @@
  * Beans' Markup Handler.
  *
  * @package     LearningCurve\BeansVisualHookGuide\Markup
- * @since       1.0.1
+ * @since       1.1.0
  * @author      Jeff Cleverley
  * @link        https://learningcurve.xyz
  * @license     GNU-2.0+
@@ -18,6 +18,7 @@ use function LearningCurve\BeansVisualHookGuide\is_query_arg_set_show;
  * Hook into Beans to display the markup on all selected markup IDs.
  *
  * @since 1.0.0
+ * @since 1.1.0 Renamed the function.
  *
  * @param string $markup_id     Markup ID from Beans' data-markup-id value.
  * @param string $raw_markup_id The raw data-markup-id without the square brackets.
@@ -39,6 +40,7 @@ function hook_into_beans_for_selected( $markup_id, $raw_markup_id ) {
  * Hook into Beans to display the markup for all possible markup IDs.
  *
  * @since 1.0.0
+ * @since 1.1.0 Renamed the function.
  *
  * @param array $markup_ids Array of Beans data-markup-id values.
  *
@@ -54,7 +56,7 @@ function hook_into_beans_for_all( $markup_ids ) {
 /**
  * Hook the markup ID into Beans's HTML API.
  *
- * @since  1.0.1
+ * @since  1.1.0
  * @ignore
  * @access private
  *
@@ -83,7 +85,7 @@ function _hook_into_beans_markup( $markup_id ) {
 /**
  * Renders the Guide's markup out to the browser.
  *
- * @since  1.0.1
+ * @since  1.1.0
  * @ignore
  * @access private
  *
