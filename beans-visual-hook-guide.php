@@ -102,7 +102,7 @@ function deactivate_when_beans_not_activated_theme() {
  */
 function autoload_files() {
 	$files = array(
-		'markup.php',
+		'markup/handler.php',
 		'admin/admin-bar.php',
 		'admin/notices.php',
 		'asset/ajax.php',

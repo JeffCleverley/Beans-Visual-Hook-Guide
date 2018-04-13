@@ -45,7 +45,7 @@ function hook_into_beans() {
 		return Asset\css_on_the_fly()->enqueue_for_selected_ids();
 	}
 
-	add_action_hooks_for_all_markup_hooks( $markup_ids );
+	Markup\hook_into_beans_for_all( $markup_ids );
 	Asset\css_on_the_fly()->enqueue_for_all_hooks( $markup_ids );
 }
 
@@ -65,7 +65,7 @@ function process_individual_markup_hooks( array $markup_ids ) {
 	foreach ( $markup_ids as $markup ) {
 		$clean_markup = remove_square_brackets( $markup );
 		Admin\add_individual_markups_to_admin_bar( $markup, $clean_markup );
-		add_action_hooks_for_individually_chosen_markup_hooks( $markup, $clean_markup );
+		Markup\hook_into_beans_for_selected( $markup, $clean_markup );
 	}
 }
 

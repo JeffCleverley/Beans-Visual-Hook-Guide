@@ -2,21 +2,20 @@
 /**
  * Beans' Markup Handler.
  *
- * @package     LearningCurve\BeansVisualHookGuide
+ * @package     LearningCurve\BeansVisualHookGuide\Markup
  * @since       1.0.1
  * @author      Jeff Cleverley
  * @link        https://learningcurve.xyz
  * @license     GNU-2.0+
  */
 
-namespace LearningCurve\BeansVisualHookGuide;
+namespace LearningCurve\BeansVisualHookGuide\Markup;
 
 use function LearningCurve\BeansVisualHookGuide\Asset\css_on_the_fly;
+use function LearningCurve\BeansVisualHookGuide\is_query_arg_set_show;
 
 /**
- * Add Beans HTML API actions to display markup on all chosen action hooks.
- *
- * Add the current markup query arg to the global markup array for making individual css changes.
+ * Hook into Beans to display the markup on all selected markup IDs.
  *
  * @since 1.0.0
  *
@@ -25,7 +24,7 @@ use function LearningCurve\BeansVisualHookGuide\Asset\css_on_the_fly;
  *
  * @return void
  */
-function add_action_hooks_for_individually_chosen_markup_hooks( $markup_id, $raw_markup_id ) {
+function hook_into_beans_for_selected( $markup_id, $raw_markup_id ) {
 
 	if ( ! is_query_arg_set_show( $raw_markup_id ) ) {
 		return;
@@ -37,7 +36,7 @@ function add_action_hooks_for_individually_chosen_markup_hooks( $markup_id, $raw
 }
 
 /**
- * Add all action hooks for all possible markup.
+ * Hook into Beans to display the markup for all possible markup IDs.
  *
  * @since 1.0.0
  *
@@ -45,7 +44,7 @@ function add_action_hooks_for_individually_chosen_markup_hooks( $markup_id, $raw
  *
  * @return void
  */
-function add_action_hooks_for_all_markup_hooks( $markup_ids ) {
+function hook_into_beans_for_all( $markup_ids ) {
 
 	foreach ( $markup_ids as $markup ) {
 		_hook_into_beans_markup( $markup );
