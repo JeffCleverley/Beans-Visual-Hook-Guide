@@ -11,7 +11,7 @@
 
 namespace LearningCurve\BeansVisualHookGuide\Asset;
 
-add_action( 'wp_ajax_bvhg_pass_markup_id_array', __NAMESPACE__ . '\pass_scraped_markup_ids_callback' );
+add_action( 'wp_ajax_bvhg_save_scraped_markup_ids', __NAMESPACE__ . '\pass_scraped_markup_ids_callback' );
 /**
  * AJAX call back
  *

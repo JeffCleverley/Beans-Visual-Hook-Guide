@@ -93,7 +93,7 @@
 	 */
 	Scraper.prototype.sendToServer = function () {
 		var data = {
-			action  : 'bvhg_pass_markup_id_array',
+			action  : 'bvhg_save_scraped_markup_ids',
 			security: this.nonce,
 			markup  : this.scrapedMarkupIds,
 		};
