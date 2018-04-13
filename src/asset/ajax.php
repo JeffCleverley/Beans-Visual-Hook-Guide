@@ -11,37 +11,59 @@
 
 namespace LearningCurve\BeansVisualHookGuide\Asset;
 
-add_action( 'wp_ajax_bvhg_pass_markup_id_array', __NAMESPACE__ . '\pass_markup_id_array_callback' );
+add_action( 'wp_ajax_bvhg_pass_markup_id_array', __NAMESPACE__ . '\pass_scraped_markup_ids_callback' );
 /**
  * AJAX call back
  *
- * Receive Array containing all the data-markup-id attributes displayed by Beans Development Mode.
- * Check if transient exists, if so delete it, then save the received array as transient.
- *
- * Always die out of an AJAX call
+ * Receives an array of scraped markup IDs, i.e. from the data-markup-id attribute.  Process
+ * the array and save as a transient.
  *
  * @since 1.0.0
  */
-function pass_markup_id_array_callback() {
+function pass_scraped_markup_ids_callback() {
 	check_ajax_referer( 'my-special-string', 'security' );
 
 	if ( ! isset( $_POST['markup'] ) ) {
 		return;
 	}
 
-	$non_sanitized_markup_array_from_ajax = $_POST['markup'];
-	$non_sanitized_markup_array           = array_unique( $non_sanitized_markup_array_from_ajax );
+	_save_markup_ids_as_transient( _clean_scraped_markup_ids( $_POST['markup'] ) );
 
-	$sanitized_markup_array = array();
-	foreach ( $non_sanitized_markup_array as $non_sanitized_markup ) {
-		$sanitized_markup_array[] = sanitize_text_field( $non_sanitized_markup );
+	die();
+}
+
+/**
+ * Clean the given markup IDs.
+ *
+ * @since 1.1.0
+ *
+ * @param array $markup_ids Markup IDs to clean.
+ *
+ * @return array
+ */
+function _clean_scraped_markup_ids( array $markup_ids ) {
+	if ( empty( $markup_ids ) ) {
+		return array();
 	}
 
+	$markup_ids = array_unique( $markup_ids );
+
+	return array_map( 'sanitize_text_field', $markup_ids );
+}
+
+/**
+ * Save the given markup IDs as a transient.
+ *
+ * @since 1.1.0
+ *
+ * @param array $markup_ids Markup IDs to save.
+ *
+ * @return void
+ */
+function _save_markup_ids_as_transient( array $markup_ids ) {
 	if ( get_transient( 'beans_html_markup_transient' ) ) {
 		delete_transient( 'beans_html_markup_transient' );
 	}
 
-	set_transient( 'beans_html_markup_transient', $sanitized_markup_array, 12 * HOUR_IN_SECONDS );
-
-	die();
+	set_transient( 'beans_html_markup_transient', $markup_ids, 12 * HOUR_IN_SECONDS );
 }
