@@ -95,9 +95,9 @@
         var parentElem = document.getElementById( 'wp-admin-bar-bvhg_html_' + classAttribute + 'hook' );
 
         // Bail out if the parent does not exist.
-        if ( typeof parentElem === 'undefined' || null === parentElem )  {
-            return false;
-        }
+	    if ( typeof parentElem === 'undefined' || null === parentElem )  {
+		    return false;
+	    }
 
         return parentElem;
     }
