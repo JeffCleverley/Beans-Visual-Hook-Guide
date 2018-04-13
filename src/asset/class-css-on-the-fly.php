@@ -12,7 +12,6 @@
 namespace LearningCurve\BeansVisualHookGuide\Asset;
 
 use function LearningCurve\BeansVisualHookGuide\_get_plugin_url;
-use function LearningCurve\BeansVisualHookGuide\_get_plugin_version;
 
 /**
  * Class Css_On_The_Fly
@@ -127,7 +126,7 @@ class Css_On_The_Fly {
 			'element-id-css-changes',
 			_get_plugin_url() . '/assets/js/element_id_css.js',
 			array( 'jquery' ),
-			_get_plugin_version(),
+			_get_asset_version( '/assets/js/element_id_css.js' ),
 			true
 		);
 

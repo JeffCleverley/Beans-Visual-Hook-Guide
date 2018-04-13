@@ -11,8 +11,8 @@
 
 namespace LearningCurve\BeansVisualHookGuide\Asset;
 
+use function LearningCurve\BeansVisualHookGuide\_get_plugin_directory;
 use function LearningCurve\BeansVisualHookGuide\_get_plugin_url;
-use function LearningCurve\BeansVisualHookGuide\_get_plugin_version;
 use function LearningCurve\BeansVisualHookGuide\is_set_to_show_bvhg;
 
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_markup_id_scraper_script', 1 );
@@ -39,7 +39,7 @@ function enqueue_markup_id_scraper_script() {
 		'scrape-the-markup-ids',
 		_get_plugin_url() . '/assets/js/scrape_markup_ids.js',
 		array( 'jquery' ),
-		_get_plugin_version(),
+		_get_asset_version( '/assets/js/scrape_markup_ids.js' ),
 		true
 	);
 
@@ -48,7 +48,7 @@ function enqueue_markup_id_scraper_script() {
 		'myAjax',
 		array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-			'nonce'   => wp_create_nonce( 'my-special-string' )
+			'nonce'   => wp_create_nonce( 'my-special-string' ),
 		)
 	);
 }
@@ -76,7 +76,12 @@ function enqueue_stylesheet() {
 		return;
 	}
 
-	wp_enqueue_style( 'bvhg_styles', _get_plugin_url() . '/assets/css/bvhg_styles.css' );
+	wp_enqueue_style(
+		'bvhg_styles',
+		_get_plugin_url() . '/assets/css/bvhg_styles.css',
+		array(),
+		_get_asset_version( '/assets/css/bvhg_styles.css' )
+	);
 }
 
 /**
@@ -90,4 +95,17 @@ function css_on_the_fly() {
 	require_once __DIR__ . '/class-css-on-the-fly.php';
 
 	return Css_On_The_Fly::getInstance();
+}
+
+/**
+ * Get's the asset file's version number by using it's modification timestamp.
+ *
+ * @since 1.0.1
+ *
+ * @param string $relative_path Relative path to the asset file.
+ *
+ * @return bool|int
+ */
+function _get_asset_version( $relative_path ) {
+	return filemtime( _get_plugin_directory() . $relative_path );
 }

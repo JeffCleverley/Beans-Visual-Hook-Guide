@@ -39,19 +39,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Get this plugin's version number.
- *
- * @since 1.0.1
- * @ignore
- * @access private
- *
- * @return string
- */
-function _get_plugin_version() {
-	return '1.0.1';
-}
-
-/**
  * Gets this plugin's absolute directory path.
  *
  * @since 1.0.0
