@@ -108,17 +108,13 @@
 	 *
 	 * @function
 	 */
-	document.onreadystatechange = function () {
-		if ( 'complete' !== document.readyState ) {
-			return;
-		}
-
+	$( document ).ready(function () {
 		// Bail out if the object not available from the server.
 		if ( typeof scraperParams === 'undefined' ) {
 			return;
 		}
 
 		new Scraper( scraperParams.ajaxurl, scraperParams.nonce );
-	}
+	});
 
 } )( jQuery, document );

@@ -127,7 +127,7 @@ class Css_On_The_Fly {
 		wp_enqueue_script(
 			'css_on_the_fly_script',
 			_get_plugin_url() . '/assets/js/css-on-the-fly.js',
-			array(),
+			array( 'jquery' ),
 			_get_asset_version( '/assets/js/css-on-the-fly.js' ),
 			true
 		);

@@ -1,4 +1,4 @@
-;(function( document ) {
+;(function( $, document ) {
     'use strict';
 
     /**
@@ -129,17 +129,13 @@
      *
      * @function
      */
-    document.onreadystatechange = function() {
-        if ( 'complete' !== document.readyState ) {
-            return;
-        }
-
+    $( document ).ready(function () {
         // Bail out if the object not available from the server.
         if ( typeof cssOnTheFlyParams === 'undefined' ) {
             return;
         }
 
         new CssOnTheFly(cssOnTheFlyParams.classNames);
-    }
+    });
 
-})( document );
+})( jQuery, document );
