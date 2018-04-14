@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Gets this plugin's absolute directory path.
  *
- * @since 1.0.0
+ * @since  1.0.0
  * @ignore
  * @access private
  *
@@ -56,7 +56,7 @@ function _get_plugin_directory() {
 /**
  * Gets this plugin's URL.
  *
- * @since 1.1.0
+ * @since  1.1.0
  * @ignore
  * @access private
  *
@@ -82,16 +82,17 @@ add_action( 'switch_theme', __NAMESPACE__ . '\deactivate_when_beans_not_activate
  * @return void
  */
 function deactivate_when_beans_not_activated_theme() {
-    // If Beans is the active theme, bail out.
-    $theme = wp_get_theme();
-	if ( in_array( $theme->Template, array( 'beans', 'tm-beans' ) ) ) {
-	    return;
-    }
+	// If Beans is the active theme, bail out.
+	$theme = wp_get_theme();
+	if ( in_array( $theme->template, array( 'beans', 'tm-beans' ), true ) ) {
+		return;
+	}
 
 	deactivate_plugins( plugin_basename( __FILE__ ) );
 
 	if ( current_filter() !== 'switch_theme' ) {
-		wp_die( __( 'Sorry, you can\'t activate this plugin unless the <a href="https://www.getbeans.io" target="_blank">Beans</a> framework is installed and a child theme is activated.', 'beans-visual-hook-guide' ) );
+		$message = __( 'Sorry, you can\'t activate this plugin unless the <a href="https://www.getbeans.io" target="_blank">Beans</a> framework is installed and a child theme is activated.', 'beans-visual-hook-guide' );
+		wp_die( wp_kses_post( $message ) );
 	}
 }
 

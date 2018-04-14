@@ -93,7 +93,7 @@ function remove_square_brackets( $string ) {
  * @return bool
  */
 function is_set_to_show_bvhg() {
-	return is_query_arg_set_show('bvhg_enable');
+	return is_query_arg_set_show( 'bvhg_enable' );
 }
 
 /**
@@ -104,7 +104,7 @@ function is_set_to_show_bvhg() {
  * @return bool
  */
 function is_set_to_show_every_html_hook() {
-	return is_query_arg_set_show('bvhg_enable_every_html_hook');
+	return is_query_arg_set_show( 'bvhg_enable_every_html_hook' );
 }
 
 /**
@@ -118,9 +118,9 @@ function is_set_to_show_every_html_hook() {
  */
 function is_query_arg_set_show( $query_arg ) {
 
-	if ( ! isset( $_GET[ $query_arg ] ) ) {
+	if ( ! isset( $_GET[ $query_arg ] ) ) { // phpcs::ignore WordPress.CSRF.NonceVerification.NoNonceVerification -- Not needed for this use case.
 		return false;
 	}
 
-	return 'show' === $_GET[ $query_arg ];
+	return 'show' === $_GET[ $query_arg ]; // phpcs::ignore WordPress.CSRF.NonceVerification.NoNonceVerification -- Not needed for this use case.
 }

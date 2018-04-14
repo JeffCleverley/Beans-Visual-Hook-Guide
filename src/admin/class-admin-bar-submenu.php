@@ -13,6 +13,7 @@ namespace LearningCurve\BeansVisualHookGuide\Admin;
 
 /**
  * Class Admin_Bar_Submenu
+ *
  * @package LearningCurve\BeansVisualHookGuide\Admin
  */
 class Admin_Bar_Submenu {
@@ -26,6 +27,7 @@ class Admin_Bar_Submenu {
 
 	/**
 	 * Array of baseline query arguments.
+	 *
 	 * @var array
 	 */
 	protected $query_args = array(

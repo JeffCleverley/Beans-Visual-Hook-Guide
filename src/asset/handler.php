@@ -94,7 +94,7 @@ function enqueue_stylesheet() {
 function css_on_the_fly() {
 	require_once __DIR__ . '/class-css-on-the-fly.php';
 
-	return Css_On_The_Fly::getInstance();
+	return Css_On_The_Fly::get_instance();
 }
 
 /**

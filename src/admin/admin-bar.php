@@ -35,7 +35,7 @@ function create_admin_bar_menus() {
  *
  * @since 1.0.0
  *
- * @param array $markup_ids Array of all data-markup-id values
+ * @param array $markup_ids Array of all data-markup-id values.
  * @param array $query_args Array of query args to add to the URL.
  *
  * @return void

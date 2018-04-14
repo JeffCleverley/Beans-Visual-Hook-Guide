@@ -15,6 +15,7 @@ use function LearningCurve\BeansVisualHookGuide\_get_plugin_url;
 
 /**
  * Class Css_On_The_Fly
+ *
  * @package LearningCurve\BeansVisualHookGuide\Asset
  */
 class Css_On_The_Fly {
@@ -35,6 +36,7 @@ class Css_On_The_Fly {
 
 	/**
 	 * Array of all markup IDs to be enqueued.
+	 *
 	 * @var array
 	 */
 	protected $ids_to_enqueue;
@@ -46,10 +48,10 @@ class Css_On_The_Fly {
 	 *
 	 * @return static
 	 */
-	public static function getInstance() {
+	public static function get_instance() {
 
-		if (is_null( static::$instance ) ) {
-			static::$instance = new static;
+		if ( is_null( static::$instance ) ) {
+			static::$instance = new static();
 		}
 
 		return static::$instance;

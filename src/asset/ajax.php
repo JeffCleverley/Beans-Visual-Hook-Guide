@@ -35,7 +35,9 @@ function pass_scraped_markup_ids_callback() {
 /**
  * Clean the given markup IDs.
  *
- * @since 1.1.0
+ * @since  1.1.0
+ * @ignore
+ * @access private
  *
  * @param array $markup_ids Markup IDs to clean.
  *
@@ -54,7 +56,9 @@ function _clean_scraped_markup_ids( array $markup_ids ) {
 /**
  * Save the given markup IDs as a transient.
  *
- * @since 1.1.0
+ * @since  1.1.0
+ * @ignore
+ * @access private
  *
  * @param array $markup_ids Markup IDs to save.
  *

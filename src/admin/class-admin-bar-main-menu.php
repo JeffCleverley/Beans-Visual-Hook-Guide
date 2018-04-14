@@ -15,6 +15,7 @@ use function LearningCurve\BeansVisualHookGuide\is_set_to_show_bvhg;
 
 /**
  * Class Admin_Bar_Main_Menu
+ *
  * @package LearningCurve\BeansVisualHookGuide\Admin
  */
 class Admin_Bar_Main_Menu {

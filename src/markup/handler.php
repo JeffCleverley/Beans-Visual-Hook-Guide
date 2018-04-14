@@ -90,7 +90,7 @@ function _hook_into_beans_markup( $markup_id ) {
  * @access private
  *
  * @param string $markup_id Markup ID.
- * @param string $type Beans' hook type, i.e. before, prepend, append, after
+ * @param string $type      Beans' hook type, i.e. before, prepend, append, after.
  *
  * @return void
  */
