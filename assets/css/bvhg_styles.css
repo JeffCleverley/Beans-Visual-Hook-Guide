@@ -37,3 +37,7 @@
 	height: auto !important;
 }
 
+ul.beans-skip-links li {
+	height: auto;
+	width: auto;
+}
