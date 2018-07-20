@@ -11,14 +11,12 @@
      */
     function CssOnTheFly( classAttributes ) {
 
-        console.log ( classAttributes );
-
-        var classAttributesArray = Object.values( classAttributes )
-
         // If did not receive from server, bail out.
         if ( !classAttributes ) {
             return;
         }
+
+        var classAttributesArray = Object.values( classAttributes )
 
       classAttributesArray.forEach( this.cssHandler, this );
     }
