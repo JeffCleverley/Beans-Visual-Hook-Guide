@@ -10,12 +10,17 @@
      * @constructor
      */
     function CssOnTheFly( classAttributes ) {
+
+        console.log ( classAttributes );
+
+        var classAttributesArray = Object.values( classAttributes )
+
         // If did not receive from server, bail out.
         if ( !classAttributes ) {
             return;
         }
 
-        classAttributes.forEach( this.cssHandler, this );
+      classAttributesArray.forEach( this.cssHandler, this );
     }
 
     /**
@@ -27,6 +32,8 @@
      * @callback
      */
     CssOnTheFly.prototype.cssHandler = function( classAttribute ) {
+
+
         this.adjustStyle( classAttribute );
         this.setColor( classAttribute, 'yellow' );
     }
@@ -116,10 +123,26 @@
         }
 
         if ( 'beans_search_form_input_icon' === classAttribute ) {
-            return 'border: solid 1px orange; margin: 5px !important; position: inherit; width: auto;';
+            return 'border: solid 1px orange; margin: 5px !important; position: inherit; width: auto; ';
         }
 
-        return 'border: solid 1px orange; margin: 5px !important;';
+        if ( 'beans_head' === classAttribute ) {
+            return 'border: solid 1px orange; margin: 5px !important; height: 7px; ';;
+        }
+
+        if ( 'beans_favicon' === classAttribute ) {
+          return 'border: solid 1px orange; margin: 5px !important; height: 7px; ';
+        }
+
+        if ( 'beans_post_meta_items' === classAttribute ) {
+          return 'border: solid 1px orange; margin: 5px !important; display: grid;';
+        }
+
+        if ( 'beans_widget_area_offcanvas_wrap[_offcanvas_menu]' === classAttribute ) {
+          return 'border: solid 1px orange; margin: 5px !important; display:block; position: unset';
+        }
+
+        return 'border: solid 1px orange; margin: 5px !important; display: block;';
     }
 
     /**
