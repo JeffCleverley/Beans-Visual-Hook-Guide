@@ -18,7 +18,7 @@
 
         var classAttributesArray = Object.values( classAttributes )
 
-      classAttributesArray.forEach( this.cssHandler, this );
+        classAttributesArray.forEach( this.cssHandler, this );
     }
 
     /**
@@ -124,12 +124,8 @@
             return 'border: solid 1px orange; margin: 5px !important; position: inherit; width: auto; ';
         }
 
-        if ( 'beans_head' === classAttribute ) {
-            return 'border: solid 1px orange; margin: 5px !important; height: 7px; ';;
-        }
-
-        if ( 'beans_favicon' === classAttribute ) {
-          return 'border: solid 1px orange; margin: 5px !important; height: 7px; ';
+        if ( 'beans_head' === classAttribute || 'beans_favicon' === classAttribute ) {
+            return 'border: solid 1px orange; margin: 5px !important; height: 7px; display: block;';
         }
 
         if ( 'beans_post_meta_items' === classAttribute ) {
